@@ -526,7 +526,7 @@
                 <div class="image-panel">
                   <img
                     id="quizImage"
-                    src="/images/QuestionMark.jpg"
+                    src="./images/QuestionMark.jpg"
                     alt="quiz image"
                   />
                   <div class="image-caption" id="imageCaption">
@@ -550,7 +550,7 @@
                   type="button"
                   onClick="submitAnswer()"
                 >
-                  <img src="/images/shell.png" alt="submit" />
+                  <img src="./images/shell.png" alt="submit" />
                   <span class="shell-text">제출</span>
                 </button>
 
@@ -560,14 +560,14 @@
                   type="button"
                   onClick="goNextQuestion()"
                 >
-                  <img src="/images/shell.png" alt="next" />
+                  <img src="./images/shell.png" alt="next" />
                   <span class="shell-text">다음</span>
                 </button>
               </div>
             </section>
           </main>
 
-          <img class="bonobono" src="/images/bonobono.png" alt="bonobono" />
+          <img class="bonobono" src="./images/bonobono.png" alt="bonobono" />
         </div>
       </div>
 
@@ -600,7 +600,7 @@
 
         async function loadMemes() {
           try {
-            const response = await fetch("/meme2025.json");
+            const response = await fetch("./meme2025.json");
             memes = await response.json();
 
             if (!Array.isArray(memes) || memes.length === 0) {
@@ -719,7 +719,7 @@
 
         function goNextQuestion() {
           if (currentIndex >= memes.length - 1) {
-            window.location.href = "/ResultPage.html";
+            window.location.href = "./ResultPage.html";
             return;
           }
           currentIndex += 1;
