@@ -572,7 +572,7 @@
       </div>
 
       <script>
-        const QUESTION_MARK_IMAGE = "/images/QuestionMark.jpg";
+        const QUESTION_MARK_IMAGE = "./images/QuestionMark.jpg";
 
         const progressText = document.getElementById("progressText");
         const totalScoreEl = document.getElementById("totalScore");
@@ -663,6 +663,12 @@
         }
 
         function submitAnswer() {
+          if (KeyboardEvent.key === "Enter") {
+            KeyboardEvent.preventDefault();
+            if (KeyboardEvent.nativeEvent.isComposing) {
+              return;
+            }
+          }
           if (quizEnded || currentIndex >= memes.length) return;
 
           const meme = memes[currentIndex];
