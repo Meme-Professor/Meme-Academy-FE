@@ -1,3 +1,5 @@
+<!-- @format -->
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -13,7 +15,7 @@
     />
     <title>Meme Academy</title>
 
-    <link rel="stylesheet" href="mainBG.css">
+    <link rel="stylesheet" href="./mainBG.css" />
 
     <style>
       a {
@@ -126,16 +128,18 @@
   </head>
   <body>
     <div class="modal">
-        <div class="modal_popup">
-          <h3>모달 팝업 타이틀 입니다!</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
-            ut facere id ullam ea adipisci et ipsam est quidem commodi ducimus
-            nostrum cum optio non dolor! Quam ipsum nam rem!
-          </p>
-          <button type="button" class="close_btn" onClick="modalClose()">닫기</button>
-        </div>
+      <div class="modal_popup">
+        <h3>모달 팝업 타이틀 입니다!</h3>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+          ut facere id ullam ea adipisci et ipsam est quidem commodi ducimus
+          nostrum cum optio non dolor! Quam ipsum nam rem!
+        </p>
+        <button type="button" class="close_btn" onClick="modalClose()">
+          닫기
+        </button>
       </div>
+    </div>
     <div class="rainbow-bg">
       <div class="title">
         <div class="title-arc">
@@ -151,9 +155,11 @@
       </div>
       <div class="bottom-area">
         <div class="button-container">
-          <a class="location-button" href="">게임 시작</a>
-          <img class="bonobono" src="/bonobono.png" alt="Bonobono" />
-          <button onClick="modalOpen()" class="location-button" href="">랭킹 보기</ㅠ>
+          <a class="location-button" href="./Nickname.html">게임 시작</a>
+          <img class="bonobono" src="./images/bonobono.png" alt="Bonobono" />
+          <button onClick="modalOpen()" class="location-button">
+            랭킹 보기
+          </button>
         </div>
       </div>
     </div>
@@ -168,6 +174,5 @@
     function modalClose() {
       modal.style.display = "none";
     }
-
   </script>
 </html>
