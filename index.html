@@ -301,19 +301,6 @@
       },
     ];
 
-    console.log(rankDataClassic[0]);
-
-    let a = 0;
-    let rankNum1 = a;
-    function makeRankModal() {
-      for (var x = 0; x < rankDataClasic.length; x++) {
-        document.getElementById("ranking").innerHTML +=
-          `<tr> <td>${++rankNum1}등</td> <td>${rankDataClassic[a].id} 점수</td><td>${rankDataClassic[a].score}</td> </tr>`;
-        a++;
-      }
-    }
-    makeRankModal();
-
     function modalOpen() {
       modal.style.display = "block";
     }
@@ -322,28 +309,57 @@
       modal.style.display = "none";
     }
 
-    // console.log(rankData2024[0]);
+    function makeRankModal() {
+      document.getElementById("ranking").innerHTML +=
+        `<button onclick="make2024Modal()">2024</button> 
+      <button onclick="make2025Modal()">2025</button> 
+      <button onclick="makeClassicModal()">고전</button>`;
+    }
+    makeRankModal();
 
-    // let b=0;
-    // let rankNum2 = b;
-    // function makeRankModal(){
-    //   for(var x = 0; x < rankData2024.length; x++){
-    //     document.getElementById('ranking').innerHTML += `<tr> <td>${++rankNum2}등</td> <td>${rankData2024[b].id} 점수</td><td>${rankData2024[b].score}</td> </tr>`
-    //     b++;
-    //   }
-    // }
-    // makeRankModal();
+    function makeClassicModal() {
+      document.getElementById("ranking").textContent = "";
 
-    // console.log(rankData2025[0]);
+      document.getElementById("ranking").innerHTML +=
+        `<button onclick="make2024Modal()">2024</button> 
+      <button onclick="make2025Modal()">2025</button> 
+      <button onclick="makeClassicModal()">고전</button>`;
 
-    // let c=0;
-    // let rankNum3 = c;
-    // function makeRankModal(){
-    //   for(var x = 0; x < rankData2025.length; x++){
-    //     document.getElementById('ranking').innerHTML += `<tr> <td>${++rankNum3}등</td> <td>${rankData2025[c].id} 점수</td><td>${rankData2025[c].score}</td> </tr>`
-    //     c++;
-    //   }
-    // }
-    // makeRankModal();
+      let rankNum1 = 0;
+      for (var x = 0; x < rankDataClassic.length; x++) {
+        document.getElementById("ranking").innerHTML +=
+          `<tr> <td>${++rankNum1}등</td> <td>${rankDataClassic[x].id} 점수</td><td>${rankDataClassic[x].score}</td> </tr>`;
+      }
+    }
+
+    function make2024Modal() {
+      document.getElementById("ranking").textContent = "";
+
+      document.getElementById("ranking").innerHTML +=
+        `<button onclick="make2024Modal()">2024</button> 
+      <button onclick="make2025Modal()">2025</button> 
+      <button onclick="makeClassicModal()">고전</button>`;
+
+      let rankNum2 = 0;
+      for (var x = 0; x < rankData2024.length; x++) {
+        document.getElementById("ranking").innerHTML +=
+          `<tr> <td>${++rankNum2}등</td> <td>${rankData2024[x].id} 점수</td><td>${rankData2024[x].score}</td> </tr>`;
+      }
+    }
+
+    function make2025Modal() {
+      document.getElementById("ranking").textContent = "";
+
+      document.getElementById("ranking").innerHTML +=
+        `<button onclick="make2024Modal()">2024</button> 
+      <button onclick="make2025Modal()">2025</button> 
+      <button onclick="makeClassicModal()">고전</button>`;
+
+      let rankNum3 = 0;
+      for (var x = 0; x < rankData2025.length; x++) {
+        document.getElementById("ranking").innerHTML +=
+          `<tr> <td>${++rankNum3}등</td> <td>${rankData2025[x].id} 점수</td><td>${rankData2025[x].score}</td> </tr>`;
+      }
+    }
   </script>
 </html>
