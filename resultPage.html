@@ -81,6 +81,14 @@
             transition: 0.3s;
         }
     </style>
+
+    <script>
+        fetch("./Meme.json")
+        .then((response) => response.json())
+        .then((json) => {
+            data = json.meme2025;
+        })
+    </script>
 </head>
 <body>
     <div class="rainbow-bg">
