@@ -12,7 +12,7 @@
             width: 100%;
             height: 20%;
             background-size: 200px;
-            background-image: url(./bonobono.png);
+            background-image: url(./images/bonobono.png);
             transform: scaleY(-1);
             background-repeat: round;
         }
@@ -20,7 +20,7 @@
             width: 100%;
             height: 20%;
             background-size: 200px;
-            background-image: url(./bonobono.png);
+            background-image: url(./images/bonobono.png);
             background-repeat: round;
             position: absolute;
             bottom: 0;
@@ -43,7 +43,7 @@
             font-weight: bold;
         }
 
-        .ansList {
+        #ansList {
             display: flex;
             justify-content: space-evenly;
             width: 100%;
@@ -56,7 +56,7 @@
             align-items: center;
             font-size: 45px;
         }
-        .left, .right {
+        #left, #right {
             display: grid;
             justify-content: space-between;
         }
@@ -83,11 +83,76 @@
     </style>
 
     <script>
-        fetch("./Meme.json")
-        .then((response) => response.json())
-        .then((json) => {
-            data = json.meme2025;
-        })
+        let memes = [];
+        let list = [];
+        let user = [];
+        let num = 1;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch("./Meme.json");
+                const response2 = await fetch("./user.json");
+                memes.list = await response.json();
+                user = await response2.json();
+
+                console.log(memes.list);
+                console.log(memes.list.meme2024[0].memeName);
+                console.log(user);
+
+            
+                if (memes.list.meme2024 === user.year) {
+                    for(let i=0; i<memes.list.meme2024.length; i++) {
+                        if(num<6) {
+                            document.getElementById('left').innerHTML += 
+                            `<div class="list">
+                                문제${num++} ${memes.list.meme2024[i].memeName}
+                                <button type="button" onclick="location.href='${memes.list.meme2024[i].originUrl}'">밈 유래 보러가기</button>
+                            </div>`
+                        } else {
+                            document.getElementById('right').innerHTML += 
+                            `<div class="list">
+                                문제${num++} ${memes.list.meme2024[i].memeName}
+                                <button type="button" onclick="location.href='${memes.list.meme2024[i].originUrl}'">밈 유래 보러가기</button>
+                            </div>`
+                        }
+                    }
+                } else if (memes.list.meme2025 === user.year) {
+                    for(let i=0; i<memes.list.meme2025.length; i++) {
+                        if(num<6) {
+                            document.getElementById('left').innerHTML += 
+                            `<div class="list">
+                                문제${num++} ${memes.list.meme2025[i].memeName}
+                                <button type="button" onclick="location.href='${memes.list.meme2025[i].originUrl}'">밈 유래 보러가기</button>
+                            </div>`
+                        } else {
+                            document.getElementById('right').innerHTML += 
+                            `<div class="list">
+                                문제${num++} ${memes.list.meme2025[i].memeName}
+                                <button type="button" onclick="location.href='${memes.list.meme2025[i].originUrl}'">밈 유래 보러가기</button>
+                            </div>`
+                        }
+                    }
+                } else {
+                    for(let i=0; i<memes.list.classicMeme.length; i++) {
+                        if(num<6) {
+                            document.getElementById('left').innerHTML += 
+                            `<div class="list">
+                                문제${num++} ${memes.list.classicMeme[i].memeName}
+                                <button type="button" onclick="location.href='${memes.list.classicMeme[i].originUrl}'">밈 유래 보러가기</button>
+                            </div>`
+                        } else {
+                            document.getElementById('right').innerHTML += 
+                            `<div class="list">
+                                문제${num++} ${memes.list.classicMeme[i].memeName}
+                                <button type="button" onclick="location.href='${memes.list.classicMeme[i].originUrl}'">밈 유래 보러가기</button>
+                            </div>`
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("Meme.json 불러오기 실패:", error);
+            }
+        });
     </script>
 </head>
 <body>
@@ -95,33 +160,9 @@
     <div class="head"></div>
     <div class="wrapper">
         <div class="container">
-            <div class="ansList">
-                <div class="left">
-                    <div class="list">
-                        문제1. 아니 없어요 그냥
-                        <button type="button" onclick="location.href='https://youtu.be/qZtY8Q0AXbQ?si=Up8HCljwo4MYaWjr'">밈 유래 보러가기</button>
-                    </div>
-                    <div class="list">
-                        문제2. 빵꾸똥꾸
-                        <button type="button" onclick="location.href='https://youtu.be/qZtY8Q0AXbQ?si=Up8HCljwo4MYaWjr'">밈 유래 보러가기</button>
-                    </div>
-                    <div class="list">문제3. 궁금하면 500원</div>
-                    <div class="list">
-                        문제4. 형이 왜 거기서 나와
-                        <button type="button" onclick="location.href='https://youtu.be/qZtY8Q0AXbQ?si=Up8HCljwo4MYaWjr'">밈 유래 보러가기</button>
-                    </div>
-                    <div class="list">문제5. 상상도 못한 정체</div>
-                </div>
-                <div class="right">
-                    <div class="list">문제6. OTL</div>
-                    <div class="list">문제7. 완소</div>
-                    <div class="list">문제8. 킹왕짱</div>
-                    <div class="list">
-                        문제9. 난 가끔 눈물을 흘려
-                        <button type="button" onclick="location.href='https://youtu.be/qZtY8Q0AXbQ?si=Up8HCljwo4MYaWjr'">밈 유래 보러가기</button>
-                    </div>
-                    <div class="list">문제10. 심쿵</div>
-                </div>
+            <div id="ansList">
+                <div id="left"></div>
+                <div id="right"></div>
             </div>
         </div>
     </div>
