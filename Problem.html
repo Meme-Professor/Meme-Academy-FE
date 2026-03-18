@@ -1,0 +1,319 @@
+<!-- @format -->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Do Hyeon", sans-serif;
+      }
+      .rainbow-bg {
+        background:
+          radial-gradient(
+            circle at top left,
+            rgb(245, 133, 111) 0%,
+            rgba(245, 133, 111, 0) 38%
+          ),
+          radial-gradient(
+            circle at top center,
+            rgb(244, 231, 97) 0%,
+            rgba(244, 231, 97, 0) 42%
+          ),
+          radial-gradient(
+            circle at top right,
+            rgb(190, 250, 148) 0%,
+            rgba(190, 250, 148, 0) 30%
+          ),
+          radial-gradient(
+            circle at center,
+            rgb(190, 250, 148) 0%,
+            rgba(190, 250, 148, 0) 32%
+          ),
+          radial-gradient(
+            circle at bottom left,
+            rgb(190, 250, 147) 0%,
+            rgba(190, 250, 147, 0) 28%
+          ),
+          radial-gradient(
+            circle at bottom center,
+            rgb(109, 190, 241) 0%,
+            rgba(109, 190, 241, 0) 35%
+          ),
+          radial-gradient(
+            circle at bottom right,
+            rgb(238, 114, 189) 0%,
+            rgba(238, 114, 189, 0) 24%
+          ),
+          linear-gradient(
+            135deg,
+            rgb(247, 171, 103) 0%,
+            rgb(232, 245, 99) 28%,
+            rgb(187, 249, 149) 52%,
+            rgb(109, 190, 241) 78%,
+            rgb(184, 118, 216) 100%
+          );
+
+        width: 100%;
+        height: 100vh;
+      }
+      .wrapper {
+        height: 40px;
+      }
+      .container {
+        border: 10px solid rgb(133, 77, 60);
+        width: 60%;
+        height: 45%;
+        background-color: rgb(10, 49, 10);
+        box-shadow: 5px 5px 10px 5px #ddd;
+        color: white;
+        padding: 50px;
+        font-family: "동희체";
+        font-size: 35px;
+        font-weight: bold;
+        margin-left: 100px;
+      }
+      .burst-border {
+        width: 616px;
+        height: 266px;
+        background: #111;
+        clip-path: polygon(
+          7% 43%,
+          19% 43%,
+          13% 30%,
+          22% 34%,
+          18% 4%,
+          35% 24%,
+          40% 4%,
+          47% 18%,
+          54% 4%,
+          59% 20%,
+          68% 7%,
+          64% 25%,
+          78% 20%,
+          71% 34%,
+          92% 28%,
+          78% 42%,
+          93% 48%,
+          76% 54%,
+          80% 68%,
+          71% 64%,
+          79% 88%,
+          64% 69%,
+          64% 91%,
+          53% 79%,
+          47% 97%,
+          40% 83%,
+          35% 93%,
+          30% 82%,
+          19% 95%,
+          20% 77%,
+          6% 87%,
+          8% 72%,
+          2% 68%,
+          15% 58%,
+          0% 43%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .burst {
+        width: 600px;
+        height: 250px;
+        background: #f7c928;
+        clip-path: polygon(
+          7% 43%,
+          19% 43%,
+          13% 30%,
+          22% 34%,
+          18% 4%,
+          35% 24%,
+          40% 4%,
+          47% 18%,
+          54% 4%,
+          59% 20%,
+          68% 7%,
+          64% 25%,
+          78% 20%,
+          71% 34%,
+          92% 28%,
+          78% 42%,
+          93% 48%,
+          76% 54%,
+          80% 68%,
+          71% 64%,
+          79% 88%,
+          64% 69%,
+          64% 91%,
+          53% 79%,
+          47% 97%,
+          40% 83%,
+          35% 93%,
+          30% 82%,
+          19% 95%,
+          20% 77%,
+          6% 87%,
+          8% 72%,
+          2% 68%,
+          15% 58%,
+          0% 43%
+        );
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        font-weight: 700;
+        color: #111;
+      }
+
+      .burst span {
+        font-size: 35px;
+        font-weight: 700;
+        color: #111;
+        margin-right: 30px;
+      }
+      .burst input {
+        width: 30%;
+        border: none;
+        outline: none;
+        background: rgba(255, 255, 255, 0.3);
+        margin-right: 30px;
+        font-size: 32px;
+        border-radius: 10px;
+        margin-right: 40px;
+        text-align: center;
+      }
+      .bottom-area {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .bonobono {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .bottom-area {
+        display: grid;
+        grid-template-columns: 5fr 1fr;
+      }
+
+      /* 조개 버튼 */
+      .shell-btn {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        cursor: pointer;
+      }
+
+      .shell-btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .shell-text {
+        position: absolute;
+        top: 55%;
+        left: 53%;
+        transform: translate(-50%, -50%);
+        font-size: 26px;
+        font-weight: bold;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="rainbow-bg">
+      <div class="wrapper"></div>
+      <div class="container">
+        <div class="grid-container">
+          <div>문제 {meme[0].memeName}</div>
+          <div style="display: flex; justify-content: end; align-items: center">
+            <img
+              src="/QuestionMark.jpg"
+              alt=""
+              style="width: 100%; height: 350px; object-fit: cover"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="bottom-area">
+        <div
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <div class="burst-border">
+            <div class="burst">
+              <span>정답을 입력하세요!</span>
+              <input type="text" />
+            </div>
+          </div>
+          <div class="shell-btn">
+            <img src="shell.png" alt="" />
+            <div class="shell-text">제출</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: end">
+          <img class="bonobono" src="/bonobono.png" alt="bonobono" />
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const quizList = document.getElementById("quizList");
+
+    async function loadMemes() {
+      try {
+        const response = await fetch("/meme.json");
+        const memeData = await response.json();
+
+        renderQuizPages(memeData);
+      } catch (error) {
+        console.error("meme.json 불러오기 실패:", error);
+      }
+    }
+
+    function renderQuizPages(memes) {
+      quizList.innerHTML = "";
+
+      memes.forEach((meme, index) => {
+        const quizPage = document.createElement("div");
+        quizPage.className = "container";
+
+        quizPage.innerHTML = `
+      <div class="grid-container">
+        <div>문제 ${index + 1}. ${meme.memeName}</div>
+        <div style="display: flex; justify-content: end; align-items: center">
+          <img
+            src="${meme.image}"
+            alt="${meme.memeName}"
+            style="width: 100%; height: 350px; object-fit: cover"
+          />
+        </div>
+      </div>
+    `;
+
+        quizList.appendChild(quizPage);
+      });
+    }
+
+    loadMemes();
+  </script>
+</html>

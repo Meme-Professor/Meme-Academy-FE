@@ -1,0 +1,807 @@
+<!-- @format -->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Do Hyeon", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      .rainbow-bg {
+        min-height: 100vh;
+        background:
+          radial-gradient(
+            circle at top left,
+            rgb(245, 133, 111) 0%,
+            rgba(245, 133, 111, 0) 38%
+          ),
+          radial-gradient(
+            circle at top center,
+            rgb(244, 231, 97) 0%,
+            rgba(244, 231, 97, 0) 42%
+          ),
+          radial-gradient(
+            circle at top right,
+            rgb(190, 250, 148) 0%,
+            rgba(190, 250, 148, 0) 30%
+          ),
+          radial-gradient(
+            circle at center,
+            rgb(190, 250, 148) 0%,
+            rgba(190, 250, 148, 0) 32%
+          ),
+          radial-gradient(
+            circle at bottom left,
+            rgb(190, 250, 147) 0%,
+            rgba(190, 250, 147, 0) 28%
+          ),
+          radial-gradient(
+            circle at bottom center,
+            rgb(109, 190, 241) 0%,
+            rgba(109, 190, 241, 0) 35%
+          ),
+          radial-gradient(
+            circle at bottom right,
+            rgb(238, 114, 189) 0%,
+            rgba(238, 114, 189, 0) 24%
+          ),
+          linear-gradient(
+            135deg,
+            rgb(247, 171, 103) 0%,
+            rgb(232, 245, 99) 28%,
+            rgb(187, 249, 149) 52%,
+            rgb(109, 190, 241) 78%,
+            rgb(184, 118, 216) 100%
+          );
+        padding: 28px 28px 0;
+        overflow: hidden;
+      }
+
+      .page-shell {
+        min-height: calc(100vh - 28px);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+
+      .status-chip {
+        background: rgba(255, 255, 255, 0.72);
+        border: 4px solid #2a2016;
+        color: #24170f;
+        border-radius: 999px;
+        padding: 10px 18px;
+        font-size: 24px;
+        box-shadow: 0 6px 0 rgba(42, 32, 22, 0.28);
+      }
+
+      .score-chip {
+        background: rgba(255, 244, 169, 0.88);
+      }
+
+      .quiz-panel {
+        width: min(1100px, 100%);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        z-index: 2;
+      }
+
+      .quiz-card {
+        background: rgba(8, 45, 18, 0.94);
+        border: 10px solid rgb(133, 77, 60);
+        border-radius: 28px;
+        box-shadow:
+          0 18px 30px rgba(0, 0, 0, 0.2),
+          inset 0 0 0 4px rgba(255, 255, 255, 0.08);
+        color: white;
+        padding: 28px;
+      }
+
+      .quiz-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .quiz-badge {
+        background: #ffed72;
+        color: #2b180d;
+        border: 4px solid #2b180d;
+        border-radius: 16px;
+        padding: 10px 16px;
+        font-size: 26px;
+        box-shadow: 0 6px 0 rgba(0, 0, 0, 0.18);
+      }
+
+      .current-score {
+        font-size: 24px;
+        color: #fff4b3;
+      }
+
+      .quiz-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 20px;
+        align-items: stretch;
+      }
+
+      .quiz-info {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .info-block {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        padding: 18px 20px;
+        border: 2px solid rgba(255, 255, 255, 0.14);
+      }
+
+      .info-label {
+        font-size: 20px;
+        color: #ffd95b;
+        margin-bottom: 8px;
+      }
+
+      .info-value {
+        font-size: 31px;
+        line-height: 1.35;
+        word-break: keep-all;
+      }
+
+      .question-text {
+        min-height: 90px;
+      }
+
+      .hint-text {
+        color: #dff7dd;
+        min-height: 90px;
+      }
+
+      .options-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .option-chip {
+        border: 3px solid #2b180d;
+        background: #fff4c0;
+        color: #2b180d;
+        border-radius: 999px;
+        padding: 8px 14px;
+        font-family: "Do Hyeon", sans-serif;
+        font-size: 21px;
+        cursor: pointer;
+        transition: transform 0.15s ease;
+      }
+
+      .option-chip:hover {
+        transform: translateY(-2px);
+      }
+
+      .image-panel {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 22px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 2px solid rgba(255, 255, 255, 0.14);
+      }
+
+      .image-panel img {
+        width: 100%;
+        height: 270px;
+        object-fit: cover;
+        border-radius: 18px;
+        border: 5px solid rgba(255, 255, 255, 0.25);
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      .image-caption {
+        margin-top: 10px;
+        text-align: center;
+        font-size: 21px;
+        color: #ffe9a8;
+      }
+
+      .answer-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+      }
+
+      .burst-border {
+        position: relative;
+        width: 900px;
+        height: 166px;
+        background: #111;
+        clip-path: polygon(
+          7% 43%,
+          19% 43%,
+          13% 30%,
+          22% 34%,
+          18% 4%,
+          35% 24%,
+          40% 4%,
+          47% 18%,
+          54% 4%,
+          59% 20%,
+          68% 7%,
+          64% 25%,
+          78% 20%,
+          71% 34%,
+          92% 28%,
+          78% 42%,
+          93% 48%,
+          76% 54%,
+          80% 68%,
+          71% 64%,
+          79% 88%,
+          64% 69%,
+          64% 91%,
+          53% 79%,
+          47% 97%,
+          40% 83%,
+          35% 93%,
+          30% 82%,
+          19% 95%,
+          20% 77%,
+          6% 87%,
+          8% 72%,
+          2% 68%,
+          15% 58%,
+          0% 43%
+        );
+        filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.18));
+      }
+
+      .burst {
+        position: absolute;
+        inset: 0;
+        background: #f7c928;
+        clip-path: polygon(
+          7% 43%,
+          19% 43%,
+          13% 30%,
+          22% 34%,
+          18% 4%,
+          35% 24%,
+          40% 4%,
+          47% 18%,
+          54% 4%,
+          59% 20%,
+          68% 7%,
+          64% 25%,
+          78% 20%,
+          71% 34%,
+          92% 28%,
+          78% 42%,
+          93% 48%,
+          76% 54%,
+          80% 68%,
+          71% 64%,
+          79% 88%,
+          64% 69%,
+          64% 91%,
+          53% 79%,
+          47% 97%,
+          40% 83%,
+          35% 93%,
+          30% 82%,
+          19% 95%,
+          20% 77%,
+          6% 87%,
+          8% 72%,
+          2% 68%,
+          15% 58%,
+          0% 43%
+        );
+        transform: scale(0.985);
+        transform-origin: center;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        color: #111;
+        padding-right: 45px;
+      }
+
+      .burst input {
+        width: 40%;
+        margin-right: 40px;
+        border: none;
+        outline: none;
+        background: rgba(255, 255, 255, 0.55);
+        font-size: 30px;
+        border-radius: 14px;
+        text-align: center;
+        padding: 12px 14px;
+        font-family: "Do Hyeon", sans-serif;
+        color: #2b180d;
+        border: 3px solid rgba(43, 24, 13, 0.55);
+        margin-right: 40px;
+      }
+
+      .action-buttons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .shell-btn {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        padding: 0;
+        transition: transform 0.15s ease;
+      }
+
+      .shell-btn:hover {
+        transform: translateY(-3px) scale(1.02);
+      }
+
+      .shell-btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .shell-text {
+        position: absolute;
+        top: 55%;
+        left: 53%;
+        transform: translate(-50%, -50%);
+        font-size: 26px;
+        font-weight: bold;
+        color: black;
+      }
+
+      .feedback-panel {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        background: rgba(255, 255, 255, 0.7);
+        border: 4px solid #2a2016;
+        border-radius: 22px;
+        padding: 16px 18px;
+      }
+
+      .result-message {
+        font-size: 28px;
+        color: #2a2016;
+      }
+
+      .result-message.success {
+        color: #0a6e2c;
+      }
+
+      .result-message.error {
+        color: #a12612;
+      }
+
+      .result-message.warning {
+        color: #7a4b05;
+      }
+
+      .origin-link {
+        white-space: nowrap;
+        color: #0a58b5;
+        font-size: 22px;
+        text-decoration: none;
+      }
+
+      .origin-link:hover {
+        text-decoration: underline;
+      }
+
+      .bonobono {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: min(260px, 23vw);
+        height: auto;
+        opacity: 0.97;
+        z-index: 1;
+      }
+
+      @media (max-width: 980px) {
+        .quiz-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .answer-section {
+          flex-direction: column;
+        }
+
+        .burst-border {
+          width: min(616px, 90vw);
+          height: auto;
+          aspect-ratio: 616 / 266;
+        }
+
+        .burst {
+          width: calc(min(616px, 90vw) - 16px);
+          height: auto;
+          aspect-ratio: 600 / 250;
+        }
+
+        .burst span {
+          font-size: 28px;
+        }
+
+        .burst input {
+          width: 60%;
+          font-size: 24px;
+        }
+
+        .feedback-panel {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .bonobono {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <body>
+      <div class="rainbow-bg">
+        <div class="page-shell">
+          <header class="top-bar">
+            <div class="status-chip" id="progressText">문제 1 / 10</div>
+            <div class="status-chip score-chip">
+              총점 <span id="totalScore">0</span>
+            </div>
+          </header>
+
+          <main class="quiz-panel">
+            <section class="quiz-card">
+              <div class="quiz-card-header">
+                <div class="quiz-badge" id="questionBadge">QUESTION 1</div>
+                <div class="current-score" id="currentQuestionScore">
+                  현재 문제 점수 100
+                </div>
+              </div>
+
+              <div class="quiz-grid">
+                <div class="quiz-info">
+                  <div class="info-block">
+                    <div class="info-label">문제</div>
+                    <div
+                      class="info-value question-text"
+                      id="questionText"
+                    ></div>
+                  </div>
+
+                  <div class="info-block">
+                    <div class="info-label">힌트</div>
+                    <div class="info-value hint-text" id="hintText">
+                      아직 공개된 힌트가 없습니다.
+                    </div>
+                  </div>
+
+                  <div
+                    class="info-block options-block"
+                    id="optionsBlock"
+                    style="display: none"
+                  >
+                    <div class="info-label">보기</div>
+                    <div class="options-list" id="optionsList"></div>
+                  </div>
+                </div>
+
+                <div class="image-panel">
+                  <img
+                    id="quizImage"
+                    src="/QuestionMark.jpg"
+                    alt="quiz image"
+                  />
+                  <div class="image-caption" id="imageCaption">
+                    이미지는 오답 2회 후 공개됩니다
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="answer-section">
+              <div class="burst-border">
+                <div class="burst">
+                  <input id="answerInput" type="text" placeholder="정답 입력" />
+                </div>
+              </div>
+
+              <div class="action-buttons">
+                <button class="shell-btn" id="submitBtn" type="button">
+                  <img src="/shell.png" alt="submit" />
+                  <span class="shell-text">제출</span>
+                </button>
+
+                <button class="shell-btn secondary" id="nextBtn" type="button">
+                  <img src="/shell.png" alt="next" />
+                  <span class="shell-text">다음</span>
+                </button>
+              </div>
+            </section>
+          </main>
+
+          <img class="bonobono" src="/bonobono.png" alt="bonobono" />
+        </div>
+      </div>
+
+      <script>
+        const QUESTION_MARK_IMAGE = "/QuestionMark.jpg";
+
+        const progressText = document.getElementById("progressText");
+        const totalScoreEl = document.getElementById("totalScore");
+        const questionBadge = document.getElementById("questionBadge");
+        const currentQuestionScore = document.getElementById(
+          "currentQuestionScore",
+        );
+        const questionText = document.getElementById("questionText");
+        const hintText = document.getElementById("hintText");
+        const quizImage = document.getElementById("quizImage");
+        const imageCaption = document.getElementById("imageCaption");
+        const answerInput = document.getElementById("answerInput");
+        const submitBtn = document.getElementById("submitBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const resultMessage = document.getElementById("resultMessage");
+        const originLink = document.getElementById("originLink");
+        const optionsBlock = document.getElementById("optionsBlock");
+        const optionsList = document.getElementById("optionsList");
+
+        let memes = [];
+        let currentIndex = 0;
+        let totalScore = 0;
+        let wrongCount = 0;
+        let currentPossibleScore = 100;
+        let quizEnded = false;
+
+        async function loadMemes() {
+          try {
+            const response = await fetch("/meme2025.json");
+            memes = await response.json();
+
+            if (!Array.isArray(memes) || memes.length === 0) {
+              resultMessage.textContent = "문제 데이터를 불러오지 못했습니다.";
+              return;
+            }
+
+            renderQuestion();
+          } catch (error) {
+            console.error("meme2025.json 불러오기 실패:", error);
+            resultMessage.textContent = "문제 데이터를 불러오지 못했습니다.";
+          }
+        }
+
+        function renderQuestion() {
+          if (currentIndex >= memes.length) {
+            renderEndScreen();
+            return;
+          }
+
+          const meme = memes[currentIndex];
+          wrongCount = 0;
+          currentPossibleScore = 100;
+
+          progressText.textContent = `문제 ${currentIndex + 1} / ${memes.length}`;
+          questionBadge.textContent = `QUESTION ${currentIndex + 1}`;
+          currentQuestionScore.textContent = `현재 문제 점수 ${currentPossibleScore}`;
+          totalScoreEl.textContent = totalScore;
+
+          questionText.textContent = meme.question;
+          hintText.textContent = "아직 공개된 힌트가 없습니다.";
+          quizImage.src = QUESTION_MARK_IMAGE;
+          quizImage.alt = "question mark";
+          imageCaption.textContent = "이미지는 오답 2회 후 공개됩니다";
+          answerInput.value = "";
+          resultMessage.textContent = "정답을 입력해보세요.";
+          resultMessage.className = "result-message";
+          originLink.href = meme.originUrl || "#";
+
+          renderOptions(meme.options);
+          answerInput.focus();
+        }
+
+        function renderOptions(options) {
+          if (!options || !Array.isArray(options) || options.length === 0) {
+            optionsBlock.style.display = "none";
+            optionsList.innerHTML = "";
+            return;
+          }
+
+          optionsBlock.style.display = "block";
+          optionsList.innerHTML = "";
+
+          options.forEach((option) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "option-chip";
+            button.textContent = option;
+            button.addEventListener("click", () => {
+              answerInput.value = option;
+            });
+            optionsList.appendChild(button);
+          });
+        }
+
+        function normalizeText(text) {
+          return String(text).replace(/\s+/g, "").trim().toLowerCase();
+        }
+
+        function submitAnswer() {
+          if (quizEnded || currentIndex >= memes.length) return;
+
+          const meme = memes[currentIndex];
+          const userAnswer = normalizeText(answerInput.value);
+          const correctAnswer = normalizeText(meme.memeName);
+
+          if (!userAnswer) {
+            resultMessage.textContent = "정답을 입력해주세요.";
+            resultMessage.className = "result-message warning";
+            return;
+          }
+
+          if (userAnswer === correctAnswer) {
+            totalScore += currentPossibleScore;
+            totalScoreEl.textContent = totalScore;
+            resultMessage.textContent = `정답입니다! +${currentPossibleScore}점`;
+            resultMessage.className = "result-message success";
+
+            setTimeout(() => {
+              currentIndex += 1;
+              renderQuestion();
+            }, 1000);
+
+            return;
+          }
+
+          wrongCount += 1;
+
+          if (wrongCount === 1) {
+            currentPossibleScore = 80;
+            currentQuestionScore.textContent = `현재 문제 점수 ${currentPossibleScore}`;
+            hintText.textContent = meme.hint || "힌트가 없습니다.";
+            resultMessage.textContent = "틀렸습니다. 초성 힌트가 공개됐어요.";
+            resultMessage.className = "result-message error";
+            return;
+          }
+
+          if (wrongCount === 2) {
+            currentPossibleScore = 60;
+            currentQuestionScore.textContent = `현재 문제 점수 ${currentPossibleScore}`;
+            quizImage.src = meme.imgUrl || QUESTION_MARK_IMAGE;
+            quizImage.alt = meme.memeName;
+            imageCaption.textContent = "이미지가 공개되었습니다";
+            resultMessage.textContent = "틀렸습니다. 이미지 힌트가 공개됐어요.";
+            resultMessage.className = "result-message error";
+            return;
+          }
+
+          resultMessage.textContent = `정답은 "${meme.memeName}" 입니다. 다음 문제로 넘어갑니다.`;
+          resultMessage.className = "result-message warning";
+
+          setTimeout(() => {
+            currentIndex += 1;
+            renderQuestion();
+          }, 1400);
+        }
+
+        function goNextQuestion() {
+          if (quizEnded) return;
+          currentIndex += 1;
+          renderQuestion();
+        }
+
+        function renderEndScreen() {
+          quizEnded = true;
+
+          progressText.textContent = "퀴즈 종료";
+          questionBadge.textContent = "FINISH";
+          currentQuestionScore.textContent = "모든 문제를 완료했습니다";
+          questionText.textContent = `최종 점수는 ${totalScore}점입니다!`;
+          hintText.textContent = "처음부터 다시 도전해보세요.";
+          quizImage.src = "/bonobono.png";
+          quizImage.alt = "finish";
+          imageCaption.textContent = "수고하셨습니다";
+          optionsBlock.style.display = "none";
+          answerInput.style.display = "none";
+          submitBtn.style.display = "none";
+          nextBtn.innerHTML = `
+        <img src="/shell.png" alt="restart" />
+        <span class="shell-text">다시</span>
+      `;
+          resultMessage.textContent = "모든 문제를 완료했습니다.";
+          resultMessage.className = "result-message success";
+          originLink.style.display = "none";
+
+          nextBtn.onclick = () => window.location.reload();
+        }
+
+        submitBtn.addEventListener("click", submitAnswer);
+
+        nextBtn.addEventListener("click", goNextQuestion);
+
+        answerInput.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            submitAnswer();
+          }
+        });
+
+        loadMemes();
+      </script>
+    </body>
+  </body>
+  <script>
+    const quizList = document.getElementById("quizList");
+
+    async function loadMemes() {
+      try {
+        const response = await fetch("/meme2025.json");
+        const memeData = await response.json();
+
+        renderQuizPages(memeData);
+      } catch (error) {
+        console.error("meme.json 불러오기 실패:", error);
+      }
+    }
+
+    function renderQuizPages(memes) {
+      quizList.innerHTML = "";
+
+      memes.forEach((meme, index) => {
+        const quizPage = document.createElement("div");
+        quizPage.className = "container";
+
+        quizPage.innerHTML = `
+      <div class="grid-container">
+        <div>문제 ${index + 1}. ${meme.memeName}</div>
+        <div style="display: flex; justify-content: end; align-items: center">
+          <img
+            src="${meme.image}"
+            alt="${meme.memeName}"
+            style="width: 100%; height: 350px; object-fit: cover"
+          />
+        </div>
+      </div>
+    `;
+
+        quizList.appendChild(quizPage);
+      });
+    }
+
+    loadMemes();
+  </script>
+</html>
