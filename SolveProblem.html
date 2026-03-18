@@ -345,7 +345,7 @@
         padding: 12px 14px;
         font-family: "Do Hyeon", sans-serif;
         color: #2b180d;
-        border: 3px solid rgba(43, 24, 13, 0.55);
+        border: none;
         margin-right: 40px;
       }
 
@@ -544,12 +544,22 @@
               </div>
 
               <div class="action-buttons">
-                <button class="shell-btn" id="submitBtn" type="button">
+                <button
+                  class="shell-btn"
+                  id="submitBtn"
+                  type="button"
+                  onClick="submitAnswer()"
+                >
                   <img src="/images/shell.png" alt="submit" />
                   <span class="shell-text">제출</span>
                 </button>
 
-                <button class="shell-btn secondary" id="nextBtn" type="button">
+                <button
+                  class="shell-btn secondary"
+                  id="nextBtn"
+                  type="button"
+                  onClick="goNextQuestion()"
+                >
                   <img src="/images/shell.png" alt="next" />
                   <span class="shell-text">다음</span>
                 </button>
@@ -562,7 +572,7 @@
       </div>
 
       <script>
-        const QUESTION_MARK_IMAGE = "/QuestionMark.jpg";
+        const QUESTION_MARK_IMAGE = "/images/QuestionMark.jpg";
 
         const progressText = document.getElementById("progressText");
         const totalScoreEl = document.getElementById("totalScore");
@@ -577,7 +587,6 @@
         const answerInput = document.getElementById("answerInput");
         const submitBtn = document.getElementById("submitBtn");
         const nextBtn = document.getElementById("nextBtn");
-        const resultMessage = document.getElementById("resultMessage");
         const originLink = document.getElementById("originLink");
         const optionsBlock = document.getElementById("optionsBlock");
         const optionsList = document.getElementById("optionsList");
@@ -595,23 +604,17 @@
             memes = await response.json();
 
             if (!Array.isArray(memes) || memes.length === 0) {
-              resultMessage.textContent = "문제 데이터를 불러오지 못했습니다.";
+              console.error("문제 데이터를 불러오지 못했습니다.");
               return;
             }
 
             renderQuestion();
           } catch (error) {
             console.error("meme2025.json 불러오기 실패:", error);
-            resultMessage.textContent = "문제 데이터를 불러오지 못했습니다.";
           }
         }
 
         function renderQuestion() {
-          if (currentIndex >= memes.length) {
-            renderEndScreen();
-            return;
-          }
-
           const meme = memes[currentIndex];
           wrongCount = 0;
           currentPossibleScore = 100;
@@ -627,8 +630,6 @@
           quizImage.alt = "question mark";
           imageCaption.textContent = "이미지는 오답 2회 후 공개됩니다";
           answerInput.value = "";
-          resultMessage.textContent = "정답을 입력해보세요.";
-          resultMessage.className = "result-message";
           originLink.href = meme.originUrl || "#";
 
           renderOptions(meme.options);
@@ -669,16 +670,13 @@
           const correctAnswer = normalizeText(meme.memeName);
 
           if (!userAnswer) {
-            resultMessage.textContent = "정답을 입력해주세요.";
-            resultMessage.className = "result-message warning";
             return;
           }
 
           if (userAnswer === correctAnswer) {
             totalScore += currentPossibleScore;
             totalScoreEl.textContent = totalScore;
-            resultMessage.textContent = `정답입니다! +${currentPossibleScore}점`;
-            resultMessage.className = "result-message success";
+            goNextQuestion();
 
             setTimeout(() => {
               currentIndex += 1;
@@ -694,8 +692,7 @@
             currentPossibleScore = 80;
             currentQuestionScore.textContent = `현재 문제 점수 ${currentPossibleScore}`;
             hintText.textContent = meme.hint || "힌트가 없습니다.";
-            resultMessage.textContent = "틀렸습니다. 초성 힌트가 공개됐어요.";
-            resultMessage.className = "result-message error";
+            console.log("틀렸습니다. 초성 힌트가 공개됐어요.");
             return;
           }
 
@@ -705,13 +702,14 @@
             quizImage.src = meme.imgUrl || QUESTION_MARK_IMAGE;
             quizImage.alt = meme.memeName;
             imageCaption.textContent = "이미지가 공개되었습니다";
-            resultMessage.textContent = "틀렸습니다. 이미지 힌트가 공개됐어요.";
-            resultMessage.className = "result-message error";
+            console.log("틀렸습니다. 이미지 힌트가 공개됐어요.");
             return;
           }
 
-          resultMessage.textContent = `정답은 "${meme.memeName}" 입니다. 다음 문제로 넘어갑니다.`;
-          resultMessage.className = "result-message warning";
+          if (wrongCount >= 3) {
+            currentPossibleScore = 0;
+            goNextQuestion();
+          }
 
           setTimeout(() => {
             currentIndex += 1;
@@ -720,39 +718,13 @@
         }
 
         function goNextQuestion() {
-          if (quizEnded) return;
+          if (currentIndex >= memes.length - 1) {
+            window.location.href = "/ResultPage.html";
+            return;
+          }
           currentIndex += 1;
           renderQuestion();
         }
-
-        function renderEndScreen() {
-          quizEnded = true;
-
-          progressText.textContent = "퀴즈 종료";
-          questionBadge.textContent = "FINISH";
-          currentQuestionScore.textContent = "모든 문제를 완료했습니다";
-          questionText.textContent = `최종 점수는 ${totalScore}점입니다!`;
-          hintText.textContent = "처음부터 다시 도전해보세요.";
-          quizImage.src = "/bonobono.png";
-          quizImage.alt = "finish";
-          imageCaption.textContent = "수고하셨습니다";
-          optionsBlock.style.display = "none";
-          answerInput.style.display = "none";
-          submitBtn.style.display = "none";
-          nextBtn.innerHTML = `
-        <img src="/images/shell.png" alt="restart" />
-        <span class="shell-text">다시</span>
-      `;
-          resultMessage.textContent = "모든 문제를 완료했습니다.";
-          resultMessage.className = "result-message success";
-          originLink.style.display = "none";
-
-          nextBtn.onclick = () => window.location.reload();
-        }
-
-        submitBtn.addEventListener("click", submitAnswer);
-
-        nextBtn.addEventListener("click", goNextQuestion);
 
         answerInput.addEventListener("keydown", (event) => {
           if (event.key === "Enter") {
@@ -764,44 +736,4 @@
       </script>
     </body>
   </body>
-  <script>
-    const quizList = document.getElementById("quizList");
-
-    async function loadMemes() {
-      try {
-        const response = await fetch("/meme2025.json");
-        const memeData = await response.json();
-
-        renderQuizPages(memeData);
-      } catch (error) {
-        console.error("meme.json 불러오기 실패:", error);
-      }
-    }
-
-    function renderQuizPages(memes) {
-      quizList.innerHTML = "";
-
-      memes.forEach((meme, index) => {
-        const quizPage = document.createElement("div");
-        quizPage.className = "container";
-
-        quizPage.innerHTML = `
-      <div class="grid-container">
-        <div>문제 ${index + 1}. ${meme.memeName}</div>
-        <div style="display: flex; justify-content: end; align-items: center">
-          <img
-            src="/images/${meme.image}"
-            alt="${meme.memeName}"
-            style="width: 100%; height: 350px; object-fit: cover"
-          />
-        </div>
-      </div>
-    `;
-
-        quizList.appendChild(quizPage);
-      });
-    }
-
-    loadMemes();
-  </script>
 </html>
