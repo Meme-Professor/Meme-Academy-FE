@@ -526,7 +526,7 @@
                 <div class="image-panel">
                   <img
                     id="quizImage"
-                    src="/QuestionMark.jpg"
+                    src="/images/QuestionMark.jpg"
                     alt="quiz image"
                   />
                   <div class="image-caption" id="imageCaption">
@@ -545,19 +545,19 @@
 
               <div class="action-buttons">
                 <button class="shell-btn" id="submitBtn" type="button">
-                  <img src="/shell.png" alt="submit" />
+                  <img src="/images/shell.png" alt="submit" />
                   <span class="shell-text">제출</span>
                 </button>
 
                 <button class="shell-btn secondary" id="nextBtn" type="button">
-                  <img src="/shell.png" alt="next" />
+                  <img src="/images/shell.png" alt="next" />
                   <span class="shell-text">다음</span>
                 </button>
               </div>
             </section>
           </main>
 
-          <img class="bonobono" src="/bonobono.png" alt="bonobono" />
+          <img class="bonobono" src="/images/bonobono.png" alt="bonobono" />
         </div>
       </div>
 
@@ -740,7 +740,7 @@
           answerInput.style.display = "none";
           submitBtn.style.display = "none";
           nextBtn.innerHTML = `
-        <img src="/shell.png" alt="restart" />
+        <img src="/images/shell.png" alt="restart" />
         <span class="shell-text">다시</span>
       `;
           resultMessage.textContent = "모든 문제를 완료했습니다.";
@@ -790,7 +790,7 @@
         <div>문제 ${index + 1}. ${meme.memeName}</div>
         <div style="display: flex; justify-content: end; align-items: center">
           <img
-            src="${meme.image}"
+            src="/images/${meme.image}"
             alt="${meme.memeName}"
             style="width: 100%; height: 350px; object-fit: cover"
           />
