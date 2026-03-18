@@ -1,159 +1,131 @@
-<!-- @format -->
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meme Academy</title>
 
-    <link rel="stylesheet" href="./mainBG.css" />
+    <link rel="stylesheet" href="mainBG.css">
 
     <style>
-      .head {
-        width: 100%;
-        height: 20%;
-        background-size: 200px;
-        background-image: url(./bonobono.png);
-        transform: scaleY(-1);
-        background-repeat: round;
-      }
-      .footer {
-        width: 100%;
-        height: 20%;
-        background-size: 200px;
-        background-image: url(./bonobono.png);
-        background-repeat: round;
-        position: absolute;
-        bottom: 0;
-      }
-      .wrapper {
-        align-items: center;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        height: 60%;
-      }
-      .container {
-        border: 10px solid rgb(133, 77, 60);
-        width: 80%;
-        height: 100%;
-        background-color: rgb(10, 49, 10);
-        box-shadow: 5px 5px 10px 5px #ddd;
-        color: white;
-        font-size: 35px;
-        font-weight: bold;
-      }
+        .head {
+            width: 100%;
+            height: 20%;
+            background-size: 200px;
+            background-image: url(./bonobono.png);
+            transform: scaleY(-1);
+            background-repeat: round;
+        }
+        .footer {
+            width: 100%;
+            height: 20%;
+            background-size: 200px;
+            background-image: url(./bonobono.png);
+            background-repeat: round;
+            position: absolute;
+            bottom: 0;
+        }
+        .wrapper {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 60%;
+        }
+        .container {
+            border: 10px solid rgb(133, 77, 60);
+            width: 80%;
+            height: 100%;
+            background-color: rgb(10, 49, 10);
+            box-shadow: 5px 5px 10px 5px #ddd;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+        }
 
-      .ansList {
-        display: flex;
-        justify-content: space-evenly;
-        width: 100%;
-        height: 100%;
-      }
-      .list {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-        align-items: center;
-        font-size: 45px;
-      }
-      .left,
-      .right {
-        display: grid;
-        justify-content: space-between;
-      }
+        .ansList {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+            height: 100%;
+        }
+        .list {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            align-items: center;
+            font-size: 45px;
+        }
+        .left, .right {
+            display: grid;
+            justify-content: space-between;
+        }
 
-      button {
-        color: #ffffff;
-        text-align: center;
-        background-color: #96a9fe;
-        border: none;
-        border-radius: 3px;
-        padding-left: 15px;
-        padding-right: 15px;
-        min-height: 20px;
-        min-width: 70px;
-        height: 30%;
-        cursor: pointer;
-        font-size: 20px;
-      }
+        button{
+            color: #ffffff;
+            text-align:center;
+            background-color: #96a9fe;
+            border: none;
+            border-radius: 3px;
+            padding-left: 15px;
+            padding-right: 15px;
+            min-height: 20px; min-width: 70px;
+            height: 30%;
+            cursor: pointer;
+            font-size: 20px;
+        }
 
-      button:hover {
-        color: #654de0;
-        background-color: #dee1fd;
-        transition: 0.3s;
-      }
+        button:hover{
+            color: #654de0;
+            background-color: #dee1fd;
+            transition: 0.3s;
+        }
     </style>
-  </head>
-  <body>
-    <div class="rainbow-bg">
-      <div class="head"></div>
-      <div class="wrapper">
+
+    <script>
+        fetch("./Meme.json")
+            .then((response) => response.json())
+            .then((json) => {
+                data = json.meme2025;
+            })
+    </script>
+</head>
+<body>
+<div class="rainbow-bg">
+    <div class="head"></div>
+    <div class="wrapper">
         <div class="container">
-          <div class="ansList">
-            <div class="left">
-              <div class="list">
-                문제1. 아니 없어요 그냥
-                <button
-                  type="button"
-                  onclick="
-                    location.href =
-                      'https://youtu.be/qZtY8Q0AXbQ?si=Up8HCljwo4MYaWjr'
-                  "
-                >
-                  밈 유래 보러가기
-                </button>
-              </div>
-              <div class="list">
-                문제2. 빵꾸똥꾸
-                <button
-                  type="button"
-                  onclick="
-                    location.href =
-                      'https://youtu.be/qZtY8Q0AXbQ?si=Up8HCljwo4MYaWjr'
-                  "
-                >
-                  밈 유래 보러가기
-                </button>
-              </div>
-              <div class="list">문제3. 궁금하면 500원</div>
-              <div class="list">
-                문제4. 형이 왜 거기서 나와
-                <button
-                  type="button"
-                  onclick="
-                    location.href =
-                      'https://youtu.be/qZtY8Q0AXbQ?si=Up8HCljwo4MYaWjr'
-                  "
-                >
-                  밈 유래 보러가기
-                </button>
-              </div>
-              <div class="list">문제5. 상상도 못한 정체</div>
+            <div class="ansList">
+                <div class="left">
+                    <div class="list">
+                        문제1. 아니 없어요 그냥
+                        <button type="button" onclick="location.href='https://youtu.be/qZtY8Q0AXbQ?si=Up8HCljwo4MYaWjr'">밈 유래 보러가기</button>
+                    </div>
+                    <div class="list">
+                        문제2. 빵꾸똥꾸
+                        <button type="button" onclick="location.href='https://youtu.be/qZtY8Q0AXbQ?si=Up8HCljwo4MYaWjr'">밈 유래 보러가기</button>
+                    </div>
+                    <div class="list">문제3. 궁금하면 500원</div>
+                    <div class="list">
+                        문제4. 형이 왜 거기서 나와
+                        <button type="button" onclick="location.href='https://youtu.be/qZtY8Q0AXbQ?si=Up8HCljwo4MYaWjr'">밈 유래 보러가기</button>
+                    </div>
+                    <div class="list">문제5. 상상도 못한 정체</div>
+                </div>
+                <div class="right">
+                    <div class="list">문제6. OTL</div>
+                    <div class="list">문제7. 완소</div>
+                    <div class="list">문제8. 킹왕짱</div>
+                    <div class="list">
+                        문제9. 난 가끔 눈물을 흘려
+                        <button type="button" onclick="location.href='https://youtu.be/qZtY8Q0AXbQ?si=Up8HCljwo4MYaWjr'">밈 유래 보러가기</button>
+                    </div>
+                    <div class="list">문제10. 심쿵</div>
+                </div>
             </div>
-            <div class="right">
-              <div class="list">문제6. OTL</div>
-              <div class="list">문제7. 완소</div>
-              <div class="list">문제8. 킹왕짱</div>
-              <div class="list">
-                문제9. 난 가끔 눈물을 흘려
-                <button
-                  type="button"
-                  onclick="
-                    location.href =
-                      'https://youtu.be/qZtY8Q0AXbQ?si=Up8HCljwo4MYaWjr'
-                  "
-                >
-                  밈 유래 보러가기
-                </button>
-              </div>
-              <div class="list">문제10. 심쿵</div>
-            </div>
-          </div>
         </div>
-      </div>
-      <div class="footer"></div>
     </div>
-  </body>
+    <div class="footer"></div>
+</div>
+</body>
 </html>
