@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"
+      rel="stylesheet"
+    />
+    <title>Meme Academy</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .modal {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 3;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.5);
+      }
+      .modal .modal_popup {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 20px;
+      }
+      .modal .modal_popup .close_btn {
+        display: block;
+        padding: 10px 20px;
+        background-color: rgb(116, 0, 0);
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        transition: box-shadow 0.2s;
+      }
+
+      .rainbow-bg {
+        background:
+          radial-gradient(
+            circle at top left,
+            rgb(245, 133, 111) 0%,
+            rgba(245, 133, 111, 0) 38%
+          ),
+          radial-gradient(
+            circle at top center,
+            rgb(244, 231, 97) 0%,
+            rgba(244, 231, 97, 0) 42%
+          ),
+          radial-gradient(
+            circle at top right,
+            rgb(190, 250, 148) 0%,
+            rgba(190, 250, 148, 0) 30%
+          ),
+          radial-gradient(
+            circle at center,
+            rgb(190, 250, 148) 0%,
+            rgba(190, 250, 148, 0) 32%
+          ),
+          radial-gradient(
+            circle at bottom left,
+            rgb(190, 250, 147) 0%,
+            rgba(190, 250, 147, 0) 28%
+          ),
+          radial-gradient(
+            circle at bottom center,
+            rgb(109, 190, 241) 0%,
+            rgba(109, 190, 241, 0) 35%
+          ),
+          radial-gradient(
+            circle at bottom right,
+            rgb(238, 114, 189) 0%,
+            rgba(238, 114, 189, 0) 24%
+          ),
+          linear-gradient(
+            135deg,
+            rgb(247, 171, 103) 0%,
+            rgb(232, 245, 99) 28%,
+            rgb(187, 249, 149) 52%,
+            rgb(109, 190, 241) 78%,
+            rgb(184, 118, 216) 100%
+          );
+
+        width: 100%;
+        height: 100vh;
+      }
+      .title {
+        width: 100%;
+        height: 320px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .title-arc {
+        --step: 14deg;
+        --start: -45deg;
+        --radius: 520px;
+        --font-size: 110px;
+        --center-y: 200%;
+        --rotate-scale: 0.35;
+
+        position: relative;
+        width: 100%;
+        margin-left: 40px;
+        height: 320px;
+      }
+
+      .title-arc span {
+        position: absolute;
+        left: 50%;
+        top: var(--center-y);
+        font-size: var(--font-size);
+        font-family: "Do Hyeon", sans-serif;
+        line-height: 1;
+        color: var(--c);
+        -webkit-text-stroke: 2px #111;
+        text-shadow: 6px 6px 0 #f47c48;
+
+        --angle: calc(var(--start) + var(--i) * var(--step));
+
+        transform: translate(-50%, -50%) rotate(var(--angle))
+          translateY(calc(var(--radius) * -1));
+      }
+      .bottom-area {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 0 100px;
+        box-sizing: border-box;
+      }
+
+      .button-container {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .bonobono {
+        width: 25%;
+        height: auto;
+        display: block;
+      }
+
+      .location-button {
+        border: 0;
+        border-radius: 20px;
+        padding: 10px 20px;
+        background-color: black;
+        font-size: 48px;
+        font-family: "Do Hyeon", sans-serif;
+        color: white;
+        white-space: nowrap;
+        align-self: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="modal">
+        <div class="modal_popup">
+          <h3>모달 팝업 타이틀 입니다!</h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
+            ut facere id ullam ea adipisci et ipsam est quidem commodi ducimus
+            nostrum cum optio non dolor! Quam ipsum nam rem!
+          </p>
+          <button type="button" class="close_btn" onClick="modalClose()">닫기</button>
+        </div>
+      </div>
+    <div class="rainbow-bg">
+      <div class="title">
+        <div class="title-arc">
+          <span style="--i: 0; --c: #ff8a8a">제</span>
+          <span style="--i: 1; --c: #ffd65c">1</span>
+          <span style="--i: 2; --c: #ffe66d">회</span>
+          <span style="--i: 3; --c: #2df0a1">밈</span>
+          <span style="--i: 4; --c: #22a7ff">퀴</span>
+          <span style="--i: 5; --c: #1792ff">즈</span>
+          <span style="--i: 6; --c: #0d63d8">쇼</span>
+          <span style="--i: 7; --c: #a95cff">~</span>
+        </div>
+      </div>
+      <div class="bottom-area">
+        <div class="button-container">
+          <a class="location-button" href="">게임 시작</a>
+          <img class="bonobono" src="/bonobono.png" alt="Bonobono" />
+          <button onClick="modalOpen()" class="location-button" href="">랭킹 보기</ㅠ>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const modal = document.querySelector(".modal");
+
+    function modalOpen() {
+      modal.style.display = "block";
+    }
+
+    function modalClose() {
+      modal.style.display = "none";
+    }
+
+  </script>
+</html>
