@@ -691,18 +691,18 @@
           if (wrongCount === 1) {
             currentPossibleScore = 80;
             currentQuestionScore.textContent = `현재 문제 점수 ${currentPossibleScore}`;
-            hintText.textContent = meme.hint || "힌트가 없습니다.";
-            console.log("틀렸습니다. 초성 힌트가 공개됐어요.");
+            quizImage.src = meme.imgUrl || QUESTION_MARK_IMAGE;
+            quizImage.alt = meme.memeName;
+            imageCaption.textContent = "이미지가 공개되었습니다";
+            console.log("틀렸습니다. 이미지 힌트가 공개됐어요.");
             return;
           }
 
           if (wrongCount === 2) {
             currentPossibleScore = 60;
             currentQuestionScore.textContent = `현재 문제 점수 ${currentPossibleScore}`;
-            quizImage.src = meme.imgUrl || QUESTION_MARK_IMAGE;
-            quizImage.alt = meme.memeName;
-            imageCaption.textContent = "이미지가 공개되었습니다";
-            console.log("틀렸습니다. 이미지 힌트가 공개됐어요.");
+            hintText.textContent = meme.hint || "힌트가 없습니다.";
+            console.log("틀렸습니다. 초성 힌트가 공개됐어요.");
             return;
           }
 
@@ -719,7 +719,7 @@
 
         function goNextQuestion() {
           if (currentIndex >= memes.length - 1) {
-            window.location.href = "ResultPage.html";
+            window.location.href = "score.html";
             return;
           }
           currentIndex += 1;
