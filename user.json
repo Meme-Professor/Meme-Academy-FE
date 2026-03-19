@@ -1,0 +1,11 @@
+{
+    "nickname" : "test",
+    "year" : "classicMeme",
+    "score" : [
+        {
+            "problem" : [10, 5, 0, 7, 5, 10, 0, 0, 5, 7],
+            "total" : 52,
+            "rank" : 1
+        }
+    ]
+}
