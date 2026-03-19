@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>결과 페이지</title>
 
     <style>
       body {
@@ -12,7 +12,6 @@
 
       .rainbow-bg {
         position: relative;
-
         width: 100%;
         height: 100vh;
 
@@ -72,13 +71,53 @@
         width: 700px;
         height: 400px;
       }
+
+      /* 결과 박스 */
       .scoreBox {
         position: absolute;
         width: 700px;
         height: 600px;
-        background-color: transparent;
         top: 50px;
         left: 100px;
+        text-align: center;
+      }
+
+      /* 이미지 */
+      .aje {
+        position: absolute;
+        width: 420px;
+        height: auto;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .last-result {
+        width: 360px;
+        top: 10px;
+      }
+
+      .scoreBox-text {
+        font-size: 50px;
+        font-weight: bold;
+        position: absolute;
+        top: 430px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        margin: 0;
+        color: white;
+        -webkit-text-stroke: 2px black;
+      }
+
+      .scoreBox-score {
+        font-size: 28px;
+        position: absolute;
+        top: 520px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        margin: 0;
       }
 
       .rankingBox {
@@ -89,44 +128,27 @@
         top: 50px;
         left: 1050px;
       }
+
       .result {
         position: absolute;
         top: 650px;
         left: 400px;
       }
+
       .resultbtn {
         width: 600px;
         height: 178px;
         background-color: transparent;
         border: none;
-        border-radius: 10px;
         font-size: 68px;
         cursor: pointer;
         color: white;
-        -webkit-text-stroke: 3px black;
+        -webkit-text-stroke: 2px black;
+        transition: all 0.3s ease;
       }
-
-      .scoreBox-text {
-        font-size: 50px;
-        font-weight: bold;
-        text-align: center;
-        position: relative;
-        top: 300px;
-      }
-
-      .scoreBox-score {
-        font-size: 24px;
-        margin-top: 20px;
-        text-align: center;
-        position: relative;
-        top: 300px;
-      }
-      .aje {
-        position: absolute;
-        width: 400px;
-        height: auto;
-        top: 50px;
-        left: 150px;
+      .resultbtn:hover {
+        transform: scale(1.03);
+        color: #ffd700;
       }
     </style>
   </head>
@@ -134,18 +156,66 @@
   <body>
     <div class="rainbow-bg">
       <div class="scoreBox">
-        <img class="aje" src="aje.png" alt="" />
-        <p class="scoreBox-text">아재시군요…. 아자스!!</p>
-        <p class="scoreBox-score">당신의 점수는 0점입니다.</p>
+        <img class="aje" src="aje.png" />
+        <p class="scoreBox-text">결과 텍스트</p>
+        <p class="scoreBox-score">점수</p>
       </div>
 
       <div class="rankingBox"></div>
+
       <div class="glass">
-        <img src="glass.png" alt="" />
+        <img src="glass.png" />
       </div>
+
       <div class="result">
         <button class="resultbtn">결과 보러 가기</button>
       </div>
     </div>
+
+    <script>
+      // 테스트용
+      let score = 83;
+
+      const resultData = [
+        { min: 0, max: 20, img: "aje.png", text: "아재시군요…. 아자스!!" },
+        {
+          min: 21,
+          max: 40,
+          img: "aje2.png",
+          text: "밈 사망선고 내리겠습니다 삐———-",
+        },
+        {
+          min: 41,
+          max: 60,
+          img: "aje3.png",
+          text: "당신은 M도 Z도 아닌 그 무언가…",
+        },
+        { min: 61, max: 80, img: "mz.png", text: "당신 꽤나 MZ?" },
+        {
+          min: 81,
+          max: 100,
+          img: "mz2.png",
+          text: "당신을 밈 지박령으로 임명합니다",
+        },
+      ];
+
+      const imgEl = document.querySelector(".aje");
+      const textEl = document.querySelector(".scoreBox-text");
+      const scoreEl = document.querySelector(".scoreBox-score");
+
+      const result = resultData.find(
+        (item) => score >= item.min && score <= item.max,
+      );
+
+      if (result) {
+        imgEl.src = result.img;
+        textEl.innerText = result.text;
+        scoreEl.innerText = `당신의 점수는 ${score}점입니다.`;
+
+        if (score >= 81) {
+          imgEl.classList.add("last-result");
+        }
+      }
+    </script>
   </body>
 </html>
