@@ -129,12 +129,19 @@
   <body>
     <div class="modal">
       <div class="modal_popup">
-        <h3>모달 팝업 타이틀 입니다!</h3>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam,
-          ut facere id ullam ea adipisci et ipsam est quidem commodi ducimus
-          nostrum cum optio non dolor! Quam ipsum nam rem!
-        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>등수</th>
+              <th>아이디</th>
+              <th>점수</th>
+            </tr>
+          </thead>
+          <tbody id="ranking">
+            <!--makeRankModal()-->
+          </tbody>
+        </table>
+
         <button type="button" class="close_btn" onClick="modalClose()">
           닫기
         </button>
@@ -167,12 +174,192 @@
   <script>
     const modal = document.querySelector(".modal");
 
+    const rankDataClassic = [
+      {
+        id: "우울할땐 똥싸",
+        score: "92",
+      },
+      {
+        id: "사라진초밥십인분",
+        score: "88",
+      },
+      {
+        id: "밈중독자",
+        score: "85",
+      },
+      {
+        id: "인터넷고인물",
+        score: "82",
+      },
+      {
+        id: "쇼츠과몰입",
+        score: "79",
+      },
+      {
+        id: "틱톡지배자",
+        score: "75",
+      },
+      {
+        id: "AI짤장인",
+        score: "70",
+      },
+      {
+        id: "유튜브폐인",
+        score: "65",
+      },
+      {
+        id: "밈연구소장",
+        score: "60",
+      },
+      {
+        id: "신입밈러",
+        score: "55",
+      },
+    ];
+    const rankData2024 = [
+      {
+        id: "쇼츠중독자",
+        score: "94",
+      },
+      {
+        id: "릴스마스터",
+        score: "91",
+      },
+      {
+        id: "밈수집가",
+        score: "87",
+      },
+      {
+        id: "알고리즘지배자",
+        score: "84",
+      },
+      {
+        id: "트렌드헌터",
+        score: "80",
+      },
+      {
+        id: "숏폼장인",
+        score: "77",
+      },
+      {
+        id: "댓글요정",
+        score: "73",
+      },
+      {
+        id: "좋아요수집러",
+        score: "68",
+      },
+      {
+        id: "밈탐험가",
+        score: "63",
+      },
+      {
+        id: "신입유저",
+        score: "58",
+      },
+    ];
+    const rankData2025 = [
+      {
+        id: "AI밈장인",
+        score: "98",
+      },
+      {
+        id: "밈GPT",
+        score: "95",
+      },
+      {
+        id: "트렌드지배자",
+        score: "92",
+      },
+      {
+        id: "밈크리에이터",
+        score: "89",
+      },
+      {
+        id: "버즈메이커",
+        score: "85",
+      },
+      {
+        id: "콘텐츠마법사",
+        score: "81",
+      },
+      {
+        id: "알고리즘고수",
+        score: "76",
+      },
+      {
+        id: "밈분석가",
+        score: "72",
+      },
+      {
+        id: "뉴미디어러버",
+        score: "67",
+      },
+      {
+        id: "초보밈러",
+        score: "60",
+      },
+    ];
+
     function modalOpen() {
       modal.style.display = "block";
     }
 
     function modalClose() {
       modal.style.display = "none";
+    }
+
+    function makeRankModal() {
+      document.getElementById("ranking").innerHTML +=
+        `<button onclick="make2024Modal()">2024</button> 
+      <button onclick="make2025Modal()">2025</button> 
+      <button onclick="makeClassicModal()">고전</button>`;
+    }
+    makeRankModal();
+
+    function makeClassicModal() {
+      document.getElementById("ranking").textContent = "";
+
+      document.getElementById("ranking").innerHTML +=
+        `<button onclick="make2024Modal()">2024</button> 
+      <button onclick="make2025Modal()">2025</button> 
+      <button onclick="makeClassicModal()">고전</button>`;
+
+      let rankNum1 = 0;
+      for (var x = 0; x < rankDataClassic.length; x++) {
+        document.getElementById("ranking").innerHTML +=
+          `<tr> <td>${++rankNum1}등</td> <td>${rankDataClassic[x].id} 점수</td><td>${rankDataClassic[x].score}</td> </tr>`;
+      }
+    }
+
+    function make2024Modal() {
+      document.getElementById("ranking").textContent = "";
+
+      document.getElementById("ranking").innerHTML +=
+        `<button onclick="make2024Modal()">2024</button> 
+      <button onclick="make2025Modal()">2025</button> 
+      <button onclick="makeClassicModal()">고전</button>`;
+
+      let rankNum2 = 0;
+      for (var x = 0; x < rankData2024.length; x++) {
+        document.getElementById("ranking").innerHTML +=
+          `<tr> <td>${++rankNum2}등</td> <td>${rankData2024[x].id} 점수</td><td>${rankData2024[x].score}</td> </tr>`;
+      }
+    }
+
+    function make2025Modal() {
+      document.getElementById("ranking").textContent = "";
+
+      document.getElementById("ranking").innerHTML +=
+        `<button onclick="make2024Modal()">2024</button> 
+      <button onclick="make2025Modal()">2025</button> 
+      <button onclick="makeClassicModal()">고전</button>`;
+
+      let rankNum3 = 0;
+      for (var x = 0; x < rankData2025.length; x++) {
+        document.getElementById("ranking").innerHTML +=
+          `<tr> <td>${++rankNum3}등</td> <td>${rankData2025[x].id} 점수</td><td>${rankData2025[x].score}</td> </tr>`;
+      }
     }
   </script>
 </html>
