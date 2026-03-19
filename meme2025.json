@@ -10,7 +10,7 @@
     "memeName": "개웃겨서 도티 낳음",
     "question": "너무 웃길때 사용하는 밈은?",
     "originUrl": "https://youtube.com/shorts/mJ2_RV2l7Nc?si=ATSoo2tMry5QOLWP",
-    "imgUrl": "./images/2025Meme/question2.png",
+    "imgUrl": "./images/2025Meme/question2.jpg",
     "options": [
       "개웃겨서 도티낳음",
       "도티됐어요",
@@ -24,7 +24,7 @@
     "question": "이 여자가 하는 말은 무엇일까요?",
     "originUrl": "https://youtu.be/untxwSHN6Oc",
     "hint": "ㅁㄲㅁㄲㅎㄷ ㅁㄲㅁㄲㅎ",
-    "imgUrl": "./imae/2025Meme/question3.png"
+    "imgUrl": "./images/2025Meme/question3.jpg"
   },
   {
     "memeName": "나니가스키",
@@ -45,7 +45,7 @@
     "question": "못생긴 것을 일컫는 말은?",
     "originUrl": "https://youtube.com/shorts/f_p9oiNT9N8?si=08JwAdoM0S4nEmY8",
     "hint": "ㅂㅌ",
-    "imgUrl": "./images/2025Meme/question6.png"
+    "imgUrl": "./images/2025Meme/question6.jpg"
   },
   {
     "memeName": "야르",
@@ -66,13 +66,13 @@
     "question": "이 남성이 하는 말은?",
     "originUrl": "https://youtube.com/shorts/8Zdby2hruhY?si=mq9rL61BiNQJIfTW",
     "hint": "ㅁ",
-    "imgUrl": "./images/2025Meme/question9.png"
+    "imgUrl": "./images/2025Meme/question9.jpg"
   },
   {
     "memeName": "암오케이 암파인 괜찮아 닝닝닝닝닝",
     "question": "이 사진이랑 관련있는 밈의 이름은?",
     "originUrl": "https://youtu.be/Lq906SgaKOM",
     "hint": "ㅇㅇㅇ ㅇㅍㅇ ㄱㅊㅇ ㄴㄴㄴㄴㄴ",
-    "imgUrl": "./images/2025Meme/question10.png"
+    "imgUrl": "./images/2025Meme/question10.jpg"
   }
 ]

@@ -69,12 +69,20 @@
         border: none;
       }
 
+      .btn.selected {
+        background-color: #222;
+        color: white;
+        border-color: #222;
+      }
+
       .btn:hover {
         transform: scale(1.1);
       }
 
       /* 조개 버튼 */
       .shell-btn {
+        background-color: rgb(255, 255, 255, 0);
+        border: none;
         position: relative;
         width: 200px;
         height: 200px;
@@ -102,20 +110,49 @@
   <body>
     <div class="container">
       <div class="nickname-box">
-        <input type="text" placeholder="닉네임을 입력하세요" />
+        <input id="nickname" type="text" placeholder="닉네임을 입력하세요" />
       </div>
 
       <div class="btn-group">
-        <button class="btn">2025</button>
-        <button class="btn">2024</button>
-        <button class="btn">고전</button>
+        <button class="btn" data-value="2025">2025</button>
+        <button class="btn" data-value="2024">2024</button>
+        <button class="btn" data-value="classic">고전</button>
       </div>
 
       <!-- 시작 버튼 -->
-      <a class="shell-btn" href="./SolveProblem.html">
+      <button onClick="goPage()" class="shell-btn" href="./SolveProblem.html">
         <img src="./images/shell.png" alt="" />
         <div class="shell-text">시작</div>
-      </a>
+      </button>
     </div>
   </body>
+  <script>
+    const buttons = document.querySelectorAll(".btn");
+
+    let selectedCategory = "";
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        buttons.forEach((btn) => btn.classList.remove("selected"));
+        button.classList.add("selected");
+        selectedCategory = button.dataset.value;
+      });
+    });
+
+    function goPage() {
+      const nickname = document.getElementById("nickname").value.trim();
+
+      if (nickname === "") {
+        alert("닉네임을 입력해주세요.");
+        return;
+      }
+
+      if (selectedCategory === "") {
+        alert("카테고리를 선택해주세요.");
+        return;
+      }
+
+      location.href = `./SolveProblem.html?nickname=${encodeURIComponent(nickname)}&category=${encodeURIComponent(selectedCategory)}`;
+    }
+  </script>
 </html>

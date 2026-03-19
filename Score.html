@@ -175,8 +175,6 @@
     </div>
 
     <script>
-      let score = 0;
-
       const resultData = [
         {
           min: 0,
@@ -205,20 +203,25 @@
         },
       ];
 
+      const params = new URLSearchParams(window.location.search);
+      const nickname = params.get("nickname");
+      const totalScore = JSON.parse(localStorage.getItem(nickname)).totalScore;
+      const category = JSON.parse(localStorage.getItem(nickname)).category;
+
       const imgEl = document.querySelector(".aje");
       const textEl = document.querySelector(".scoreBox-text");
       const scoreEl = document.querySelector(".scoreBox-score");
 
       const result = resultData.find(
-        (item) => score >= item.min && score <= item.max,
+        (item) => totalScore >= item.min && totalScore <= item.max,
       );
 
       if (result) {
         imgEl.src = result.img;
         textEl.innerText = result.text;
-        scoreEl.innerText = `당신의 점수는 ${score}점입니다.`;
+        scoreEl.innerText = `당신의 점수는 ${totalScore}점입니다.`;
 
-        if (score >= 81) {
+        if (totalScore >= 81) {
           imgEl.classList.add("last-result");
         }
       }
