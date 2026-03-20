@@ -158,6 +158,7 @@
         border-radius: 18px;
         padding: 18px 20px;
         border: 2px solid rgba(255, 255, 255, 0.14);
+        flex: 1;
       }
 
       .info-label {
@@ -181,41 +182,19 @@
         min-height: 90px;
       }
 
-      .options-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      .option-chip {
-        border: 3px solid #2b180d;
-        background: #fff4c0;
-        color: #2b180d;
-        border-radius: 999px;
-        padding: 8px 14px;
-        font-family: "Do Hyeon", sans-serif;
-        font-size: 21px;
-        cursor: pointer;
-        transition: transform 0.15s ease;
-      }
-
-      .option-chip:hover {
-        transform: translateY(-2px);
-      }
-
       .image-panel {
         background: rgba(255, 255, 255, 0.08);
         border-radius: 22px;
         padding: 16px;
         display: flex;
-        flex-direction: column;
+        align-items: center;
         justify-content: space-between;
         border: 2px solid rgba(255, 255, 255, 0.14);
+        height: 550px;
       }
 
       .image-panel img {
         width: 100%;
-        height: 100%;
         object-fit: cover;
         border-radius: 18px;
         border: 5px solid rgba(255, 255, 255, 0.25);
@@ -347,6 +326,10 @@
         color: #2b180d;
         border: none;
         margin-right: 40px;
+      }
+      .burst input:-webkit-autofill {
+        color: #2b180d;
+        background: rgba(255, 255, 255, 0.55);
       }
 
       .action-buttons {
@@ -512,15 +495,6 @@
                       아직 공개된 힌트가 없습니다.
                     </div>
                   </div>
-
-                  <div
-                    class="info-block options-block"
-                    id="optionsBlock"
-                    style="display: none"
-                  >
-                    <div class="info-label">보기</div>
-                    <div class="options-list" id="optionsList"></div>
-                  </div>
                 </div>
 
                 <div class="image-panel">
@@ -581,8 +555,6 @@
         const answerInput = document.getElementById("answerInput");
         const submitBtn = document.getElementById("submitBtn");
         const nextBtn = document.getElementById("nextBtn");
-        const optionsBlock = document.getElementById("optionsBlock");
-        const optionsList = document.getElementById("optionsList");
 
         const QUESTION_SCORE = 10;
         const HINT_QUESTION_SCORE = 5;
@@ -736,33 +708,7 @@
           quizImage.alt = meme.memeName || "quiz image";
 
           answerInput.value = "";
-
-          renderOptions(meme.options);
           answerInput.focus();
-        }
-
-        function renderOptions(options) {
-          if (!options || !Array.isArray(options) || options.length === 0) {
-            optionsBlock.style.display = "none";
-            optionsList.innerHTML = "";
-            return;
-          }
-
-          optionsBlock.style.display = "block";
-          optionsList.innerHTML = "";
-
-          options.forEach((option) => {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "option-chip";
-            button.textContent = option;
-
-            button.addEventListener("click", () => {
-              answerInput.value = option;
-            });
-
-            optionsList.appendChild(button);
-          });
         }
 
         function normalizeText(text) {
