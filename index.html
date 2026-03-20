@@ -1,4 +1,3 @@
-
 <!-- @format -->
 
 <!doctype html>
@@ -100,6 +99,12 @@
         border-radius: 5px;
         color: #fff;
         cursor: pointer;
+        transition: box-shadow 0.2s;
+        margin-top: 10px;
+      }
+
+      .close_btn {
+        margin-left: 180px;
       }
 
       .title {
@@ -116,7 +121,6 @@
         --radius: 520px;
         --font-size: 110px;
         --center-y: 200%;
-        --rotate-scale: 0.35;
 
         position: relative;
         width: 100%;
@@ -137,9 +141,22 @@
 
         --angle: calc(var(--start) + var(--i) * var(--step));
 
-        transform: translate(-50%, -50%) rotate(var(--angle))
-          translateY(calc(var(--radius) * -1));
+        animation: titleBounce 1.4s ease-in-out infinite;
+        animation-delay: calc(var(--i) * 0.12s);
       }
+
+      @keyframes titleBounce {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) rotate(var(--angle))
+            translateY(calc(var(--radius) * -1));
+        }
+        50% {
+          transform: translate(-50%, -58%) rotate(var(--angle))
+            translateY(calc(var(--radius) * -1));
+        }
+      }
+
       .bottom-area {
         position: absolute;
         bottom: 0;
@@ -171,6 +188,66 @@
         color: white;
         white-space: nowrap;
         align-self: center;
+
+        cursor: pointer;
+
+        transition: all 0.2s ease;
+      }
+      .location-button:hover {
+        transform: translateY(-6px) scale(1.05);
+
+        background: linear-gradient(
+          90deg,
+          red,
+          orange,
+          yellow,
+          green,
+          cyan,
+          blue,
+          purple
+        );
+
+        color: white;
+
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+      }
+      .location-button:active {
+        transform: scale(0.95);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .rank-category-buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .rank-category-buttons button {
+        border: none;
+        border-radius: 10px;
+        padding: 8px 14px;
+        font-size: 18px;
+        font-family: "Do Hyeon", sans-serif;
+        cursor: pointer;
+        background: #222;
+        color: white;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 420px;
+      }
+
+      th,
+      td {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 14px;
+        text-align: center;
+      }
+
+      th {
+        background: #f4f4f4;
       }
     </style>
   </head>
@@ -199,6 +276,7 @@
         </button>
       </div>
     </div>
+
     <div class="rainbow-bg">
       <div class="title">
         <div class="title-arc">
@@ -212,6 +290,7 @@
           <span style="--i: 7; --c: #a95cff">~</span>
         </div>
       </div>
+
       <div class="bottom-area">
         <div class="button-container">
           <a class="location-button" href="./Nickname.html">게임 시작</a>
@@ -223,10 +302,21 @@
       </div>
     </div>
   </body>
+
   <script>
     const modal = document.querySelector(".modal");
 
     const rankDataClassic = [
+      { id: "우울할땐 똥싸", score: "92" },
+      { id: "사라진초밥십인분", score: "88" },
+      { id: "밈중독자", score: "85" },
+      { id: "인터넷고인물", score: "82" },
+      { id: "쇼츠과몰입", score: "79" },
+      { id: "틱톡지배자", score: "75" },
+      { id: "AI짤장인", score: "70" },
+      { id: "유튜브폐인", score: "65" },
+      { id: "밈연구소장", score: "60" },
+      { id: "신입밈러", score: "55" },
       { id: "우울할땐 똥싸", score: "92" },
       { id: "사라진초밥십인분", score: "88" },
       { id: "밈중독자", score: "85" },
@@ -274,31 +364,53 @@
       modal.classList.remove("active");
     }
 
-    function renderRank(data) {
-      const ranking = document.getElementById("ranking");
-      ranking.innerHTML = "";
+    function renderRanking(data, title) {
+      let rows = "";
 
-      data.forEach((item, index) => {
-        ranking.innerHTML += `
-        <tr>
-          <td>${index + 1}등</td>
-          <td>${item.id}</td>
-          <td>${item.score}</td>
-        </tr>
+      for (let i = 0; i < data.length; i++) {
+        rows += `
+          <tr>
+            <td>${i + 1}등</td>
+            <td>${data[i].id}</td>
+            <td>${data[i].score}</td>
+          </tr>
+        `;
+      }
+
+      document.getElementById("ranking").innerHTML = `
+        <div class="rank-category-buttons">
+          <button onclick="make2024Modal()">2024</button>
+          <button onclick="make2025Modal()">2025</button>
+          <button onclick="makeClassicModal()">고전</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>등수</th>
+              <th>아이디</th>
+              <th>점수</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
       `;
-      });
     }
 
     function makeClassicModal() {
-      renderRank(rankDataClassic);
+      renderRanking(rankDataClassic, "고전");
     }
 
     function make2024Modal() {
-      renderRank(rankData2024);
+      renderRanking(rankData2024, "2024");
     }
 
     function make2025Modal() {
-      renderRank(rankData2025);
+      renderRanking(rankData2025, "2025");
     }
+
+    makeClassicModal();
   </script>
 </html>

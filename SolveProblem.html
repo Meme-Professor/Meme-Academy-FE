@@ -1,7 +1,7 @@
 <!-- @format -->
 
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -195,17 +195,11 @@
 
       .image-panel img {
         width: 100%;
+        height: 100%;
         object-fit: cover;
         border-radius: 18px;
         border: 5px solid rgba(255, 255, 255, 0.25);
         background: rgba(255, 255, 255, 0.18);
-      }
-
-      .image-caption {
-        margin-top: 10px;
-        text-align: center;
-        font-size: 21px;
-        color: #ffe9a8;
       }
 
       .answer-section {
@@ -315,7 +309,6 @@
       .burst input {
         width: 40%;
         margin-right: 40px;
-        border: none;
         outline: none;
         background: rgba(255, 255, 255, 0.55);
         font-size: 30px;
@@ -325,8 +318,8 @@
         font-family: "Do Hyeon", sans-serif;
         color: #2b180d;
         border: none;
-        margin-right: 40px;
       }
+
       .burst input:-webkit-autofill {
         color: #2b180d;
         background: rgba(255, 255, 255, 0.55);
@@ -369,45 +362,6 @@
         color: black;
       }
 
-      .feedback-panel {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 14px;
-        background: rgba(255, 255, 255, 0.7);
-        border: 4px solid #2a2016;
-        border-radius: 22px;
-        padding: 16px 18px;
-      }
-
-      .result-message {
-        font-size: 28px;
-        color: #2a2016;
-      }
-
-      .result-message.success {
-        color: #0a6e2c;
-      }
-
-      .result-message.error {
-        color: #a12612;
-      }
-
-      .result-message.warning {
-        color: #7a4b05;
-      }
-
-      .origin-link {
-        white-space: nowrap;
-        color: #0a58b5;
-        font-size: 22px;
-        text-decoration: none;
-      }
-
-      .origin-link:hover {
-        text-decoration: underline;
-      }
-
       .bonobono {
         position: absolute;
         right: 0;
@@ -416,6 +370,148 @@
         height: auto;
         opacity: 0.97;
         z-index: 1;
+      }
+
+      /* 커스텀 알림 */
+      .alert-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 9999;
+        overflow: hidden;
+      }
+
+      .alert-overlay.show {
+        display: flex;
+      }
+
+      .alert-card {
+        position: relative;
+        width: min(460px, 90vw);
+        min-height: 250px;
+        background: rgba(255, 255, 255, 0.96);
+        border-radius: 30px;
+        padding: 34px 28px 28px;
+        text-align: center;
+        box-shadow:
+          0 24px 50px rgba(0, 0, 0, 0.22),
+          inset 0 0 0 4px rgba(255, 255, 255, 0.5);
+        transform: scale(0.8);
+        opacity: 0;
+        animation: popIn 0.28s ease forwards;
+      }
+
+      .alert-card.correct {
+        border: 6px solid #3ecf62;
+      }
+
+      .alert-card.wrong {
+        border: 6px solid #ff6868;
+      }
+
+      .alert-card.info {
+        border: 6px solid #ffcb3d;
+      }
+
+      .alert-icon {
+        font-size: 58px;
+        margin-bottom: 10px;
+      }
+
+      .alert-title {
+        font-size: 34px;
+        color: #2b180d;
+        margin-bottom: 12px;
+      }
+
+      .alert-message {
+        font-size: 24px;
+        line-height: 1.5;
+        color: #3a2a21;
+        word-break: keep-all;
+        margin-bottom: 22px;
+      }
+
+      .alert-btn {
+        min-width: 110px;
+        border: none;
+        border-radius: 16px;
+        padding: 12px 24px;
+        font-size: 22px;
+        font-family: "Do Hyeon", sans-serif;
+        cursor: pointer;
+        color: #1f140d;
+        background: linear-gradient(135deg, #ffe465, #ffb92e);
+        box-shadow: 0 6px 0 rgba(73, 49, 18, 0.2);
+      }
+
+      .alert-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .alert-btn:active {
+        transform: translateY(1px);
+      }
+
+      .particle {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: explode 0.95s ease-out forwards;
+      }
+
+      .shake {
+        animation:
+          popIn 0.28s ease forwards,
+          shake 0.45s ease 0.05s;
+      }
+
+      @keyframes popIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes shake {
+        0% {
+          transform: translateX(0);
+        }
+        20% {
+          transform: translateX(-12px);
+        }
+        40% {
+          transform: translateX(12px);
+        }
+        60% {
+          transform: translateX(-8px);
+        }
+        80% {
+          transform: translateX(8px);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes explode {
+        0% {
+          transform: translate(0, 0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(var(--x), var(--y)) scale(0.2);
+          opacity: 0;
+        }
       }
 
       @media (max-width: 980px) {
@@ -439,366 +535,491 @@
           aspect-ratio: 600 / 250;
         }
 
-        .burst span {
-          font-size: 28px;
-        }
-
         .burst input {
           width: 60%;
           font-size: 24px;
         }
 
-        .feedback-panel {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
         .bonobono {
           display: none;
+        }
+
+        .alert-title {
+          font-size: 28px;
+        }
+
+        .alert-message {
+          font-size: 20px;
         }
       }
     </style>
   </head>
   <body>
-    <body>
-      <div class="rainbow-bg">
-        <div class="page-shell">
-          <header class="top-bar">
-            <div class="status-chip" id="progressText">문제 1 / 10</div>
-            <div class="status-chip score-chip">
-              총점 <span id="totalScore">0</span>
+    <div class="rainbow-bg">
+      <div class="page-shell">
+        <header class="top-bar">
+          <div class="status-chip" id="progressText">문제 1 / 10</div>
+          <div class="status-chip score-chip">
+            총점 <span id="totalScore">0</span>
+          </div>
+        </header>
+
+        <main class="quiz-panel">
+          <section class="quiz-card">
+            <div class="quiz-card-header">
+              <div class="quiz-badge" id="questionBadge">QUESTION 1</div>
+              <div class="current-score" id="currentQuestionScore">
+                현재 문제 점수 100
+              </div>
             </div>
-          </header>
 
-          <main class="quiz-panel">
-            <section class="quiz-card">
-              <div class="quiz-card-header">
-                <div class="quiz-badge" id="questionBadge">QUESTION 1</div>
-                <div class="current-score" id="currentQuestionScore">
-                  현재 문제 점수 100
+            <div class="quiz-grid">
+              <div class="quiz-info">
+                <div class="info-block">
+                  <div class="info-label">문제</div>
+                  <div class="info-value question-text" id="questionText"></div>
                 </div>
-              </div>
 
-              <div class="quiz-grid">
-                <div class="quiz-info">
-                  <div class="info-block">
-                    <div class="info-label">문제</div>
-                    <div
-                      class="info-value question-text"
-                      id="questionText"
-                    ></div>
-                  </div>
-
-                  <div class="info-block">
-                    <div class="info-label">힌트</div>
-                    <div class="info-value hint-text" id="hintText">
-                      아직 공개된 힌트가 없습니다.
-                    </div>
+                <div class="info-block">
+                  <div class="info-label">힌트</div>
+                  <div class="info-value hint-text" id="hintText">
+                    아직 공개된 힌트가 없습니다.
                   </div>
                 </div>
-
-                <div class="image-panel">
-                  <img
-                    id="quizImage"
-                    src="./images/QuestionMark.jpg"
-                    alt="quiz image"
-                  />
-                </div>
-              </div>
-            </section>
-
-            <section class="answer-section">
-              <div class="burst-border">
-                <div class="burst">
-                  <input id="answerInput" type="text" placeholder="정답 입력" />
-                </div>
               </div>
 
-              <div class="action-buttons">
-                <button
-                  class="shell-btn"
-                  id="submitBtn"
-                  type="button"
-                  onClick="submitAnswer()"
-                >
-                  <img src="./images/shell.png" alt="submit" />
-                  <span class="shell-text">제출</span>
-                </button>
-
-                <button
-                  class="shell-btn secondary"
-                  id="nextBtn"
-                  type="button"
-                  onClick="goNextQuestion()"
-                >
-                  <img src="./images/shell.png" alt="next" />
-                  <span class="shell-text">다음</span>
-                </button>
+              <div class="image-panel">
+                <img
+                  id="quizImage"
+                  src="./images/QuestionMark.jpg"
+                  alt="quiz image"
+                />
               </div>
-            </section>
-          </main>
+            </div>
+          </section>
 
-          <img class="bonobono" src="./images/bonobono.png" alt="bonobono" />
-        </div>
+          <section class="answer-section">
+            <div class="burst-border">
+              <div class="burst">
+                <input id="answerInput" type="text" placeholder="정답 입력" />
+              </div>
+            </div>
+
+            <div class="action-buttons">
+              <button
+                class="shell-btn"
+                id="submitBtn"
+                type="button"
+                onclick="submitAnswer()"
+              >
+                <img src="./images/shell.png" alt="submit" />
+                <span class="shell-text">제출</span>
+              </button>
+
+              <button
+                class="shell-btn secondary"
+                id="nextBtn"
+                type="button"
+                onclick="goNextQuestion()"
+              >
+                <img src="./images/shell.png" alt="next" />
+                <span class="shell-text">다음</span>
+              </button>
+            </div>
+          </section>
+        </main>
+
+        <img class="bonobono" src="./images/bonobono.png" alt="bonobono" />
       </div>
+    </div>
 
-      <script>
-        const progressText = document.getElementById("progressText");
-        const totalScoreEl = document.getElementById("totalScore");
-        const questionBadge = document.getElementById("questionBadge");
-        const currentQuestionScore = document.getElementById(
-          "currentQuestionScore",
-        );
-        const questionText = document.getElementById("questionText");
-        const hintText = document.getElementById("hintText");
-        const quizImage = document.getElementById("quizImage");
-        const answerInput = document.getElementById("answerInput");
-        const submitBtn = document.getElementById("submitBtn");
-        const nextBtn = document.getElementById("nextBtn");
+    <!-- 커스텀 알림 -->
+    <div class="alert-overlay" id="alertOverlay">
+      <div class="alert-card" id="alertCard">
+        <div class="alert-icon" id="alertIcon">🎉</div>
+        <div class="alert-title" id="alertTitle">알림</div>
+        <div class="alert-message" id="alertMessage">메시지</div>
+        <button class="alert-btn" id="alertBtn" type="button">확인</button>
+      </div>
+    </div>
 
-        const QUESTION_SCORE = 10;
-        const HINT_QUESTION_SCORE = 5;
+    <script>
+      const progressText = document.getElementById("progressText");
+      const totalScoreEl = document.getElementById("totalScore");
+      const questionBadge = document.getElementById("questionBadge");
+      const currentQuestionScore = document.getElementById(
+        "currentQuestionScore",
+      );
+      const questionText = document.getElementById("questionText");
+      const hintText = document.getElementById("hintText");
+      const quizImage = document.getElementById("quizImage");
+      const answerInput = document.getElementById("answerInput");
+      const submitBtn = document.getElementById("submitBtn");
+      const nextBtn = document.getElementById("nextBtn");
 
-        const params = new URLSearchParams(window.location.search);
-        const nickname = params.get("nickname");
-        const category = params.get("category");
+      const alertOverlay = document.getElementById("alertOverlay");
+      const alertCard = document.getElementById("alertCard");
+      const alertIcon = document.getElementById("alertIcon");
+      const alertTitle = document.getElementById("alertTitle");
+      const alertMessage = document.getElementById("alertMessage");
+      const alertBtn = document.getElementById("alertBtn");
 
-        const CATEGORY_FILE_MAP = {
-          2025: "./meme2025.json",
-          2024: "./meme2024.json",
-          classic: "./memeClassic.json",
+      const QUESTION_SCORE = 10;
+      const HINT_QUESTION_SCORE = 5;
+
+      const params = new URLSearchParams(window.location.search);
+      const nickname = params.get("nickname");
+      const category = params.get("category");
+
+      const CATEGORY_FILE_MAP = {
+        2025: "./meme2025.json",
+        2024: "./meme2024.json",
+        classic: "./memeClassic.json",
+      };
+
+      let memes = [];
+      let currentIndex = 0;
+      let totalScore = 0;
+      let wrongCount = 0;
+      let quizEnded = false;
+      let alertConfirmCallback = null;
+
+      function getStorageKey() {
+        return nickname;
+      }
+
+      function getInitialUserData() {
+        return {
+          nickname: nickname,
+          category: category,
+          totalScore: 0,
+          answers: [],
         };
+      }
 
-        let memes = [];
-        let currentIndex = 0;
-        let totalScore = 0;
-        let wrongCount = 0;
-        let quizEnded = false;
+      function getUserQuizData() {
+        const storageKey = getStorageKey();
+        const saved = localStorage.getItem(storageKey);
 
-        function getStorageKey() {
-          return nickname;
+        if (!saved) {
+          return getInitialUserData();
         }
 
-        function getInitialUserData() {
+        try {
+          const parsed = JSON.parse(saved);
+
           return {
             nickname: nickname,
             category: category,
-            totalScore: 0,
-            answers: [],
+            totalScore:
+              typeof parsed.totalScore === "number" ? parsed.totalScore : 0,
+            answers: Array.isArray(parsed.answers) ? parsed.answers : [],
           };
+        } catch (error) {
+          return getInitialUserData();
+        }
+      }
+
+      function saveUserQuizData(data) {
+        const storageKey = getStorageKey();
+        localStorage.setItem(storageKey, JSON.stringify(data));
+      }
+
+      function resetCurrentUserQuizData() {
+        const initialData = getInitialUserData();
+        saveUserQuizData(initialData);
+        totalScore = 0;
+      }
+
+      function upsertAnswerScore(questionIndex, score) {
+        const userData = getUserQuizData();
+
+        const existingIndex = userData.answers.findIndex(
+          (item) => item.questionIndex === questionIndex,
+        );
+
+        const record = {
+          questionIndex: questionIndex,
+          score: score,
+        };
+
+        if (existingIndex >= 0) {
+          userData.answers[existingIndex] = record;
+        } else {
+          userData.answers.push(record);
         }
 
-        function getUserQuizData() {
-          const storageKey = getStorageKey();
-          const saved = localStorage.getItem(storageKey);
+        userData.totalScore = totalScore;
+        userData.category = category;
 
-          if (!saved) {
-            return getInitialUserData();
-          }
+        saveUserQuizData(userData);
+      }
 
-          try {
-            const parsed = JSON.parse(saved);
+      function clearParticles() {
+        const particles = alertOverlay.querySelectorAll(".particle");
+        particles.forEach((particle) => particle.remove());
+      }
 
-            return {
-              nickname: nickname,
-              category: category,
-              totalScore:
-                typeof parsed.totalScore === "number" ? parsed.totalScore : 0,
-              answers: Array.isArray(parsed.answers) ? parsed.answers : [],
-            };
-          } catch (error) {
-            return getInitialUserData();
-          }
+      function createBurst(centerX, centerY) {
+        const colors = [
+          "#ff5f6d",
+          "#ffc371",
+          "#ffe066",
+          "#59d98e",
+          "#52c7ff",
+          "#5d7cff",
+          "#be6bff",
+          "#ff7cc8",
+        ];
+
+        for (let i = 0; i < 26; i++) {
+          const particle = document.createElement("span");
+          const angle = (Math.PI * 2 * i) / 26;
+          const distance = 55 + Math.random() * 95;
+
+          particle.className = "particle";
+          particle.style.left = `${centerX}px`;
+          particle.style.top = `${centerY}px`;
+          particle.style.backgroundColor =
+            colors[Math.floor(Math.random() * colors.length)];
+          particle.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+          particle.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
+
+          alertOverlay.appendChild(particle);
+
+          setTimeout(() => {
+            particle.remove();
+          }, 950);
+        }
+      }
+
+      function launchFireworks() {
+        const overlayRect = alertOverlay.getBoundingClientRect();
+        createBurst(overlayRect.width * 0.35, overlayRect.height * 0.28);
+        setTimeout(() => {
+          createBurst(overlayRect.width * 0.5, overlayRect.height * 0.2);
+        }, 150);
+        setTimeout(() => {
+          createBurst(overlayRect.width * 0.65, overlayRect.height * 0.3);
+        }, 300);
+      }
+
+      function showAlert(type, title, message, onConfirm = null) {
+        clearParticles();
+        alertConfirmCallback = onConfirm;
+
+        alertCard.classList.remove("correct", "wrong", "info", "shake");
+
+        if (type === "correct") {
+          alertCard.classList.add("correct");
+          alertIcon.textContent = "🎉";
+        } else if (type === "wrong") {
+          alertCard.classList.add("wrong");
+          alertIcon.textContent = "❌";
+        } else {
+          alertCard.classList.add("info");
+          alertIcon.textContent = "⚠️";
         }
 
-        function saveUserQuizData(data) {
-          const storageKey = getStorageKey();
-          localStorage.setItem(storageKey, JSON.stringify(data));
+        alertTitle.textContent = title;
+        alertMessage.textContent = message;
+        alertOverlay.classList.add("show");
+
+        void alertCard.offsetWidth;
+
+        if (type === "correct") {
+          launchFireworks();
         }
 
-        function resetCurrentUserQuizData() {
-          const initialData = getInitialUserData();
-          saveUserQuizData(initialData);
-          totalScore = 0;
+        if (type === "wrong") {
+          alertCard.classList.add("shake");
         }
+      }
 
-        function upsertAnswerScore(questionIndex, score) {
-          const userData = getUserQuizData();
+      function closeAlert() {
+        alertOverlay.classList.remove("show");
+        alertCard.classList.remove("shake");
+        clearParticles();
 
-          const existingIndex = userData.answers.findIndex(
-            (item) => item.questionIndex === questionIndex,
-          );
+        const callback = alertConfirmCallback;
+        alertConfirmCallback = null;
 
-          const record = {
-            questionIndex: questionIndex,
-            score: score,
-          };
-
-          if (existingIndex >= 0) {
-            userData.answers[existingIndex] = record;
-          } else {
-            userData.answers.push(record);
-          }
-
-          userData.totalScore = totalScore;
-          userData.category = category;
-
-          saveUserQuizData(userData);
+        if (typeof callback === "function") {
+          callback();
         }
+      }
 
-        async function loadMemes() {
-          if (!nickname) {
-            alert("닉네임 정보가 없습니다.");
+      alertBtn.addEventListener("click", closeAlert);
+
+      alertOverlay.addEventListener("click", (event) => {
+        if (event.target === alertOverlay) {
+          closeAlert();
+        }
+      });
+
+      async function loadMemes() {
+        if (!nickname) {
+          showAlert("info", "알림", "닉네임 정보가 없습니다.", () => {
             window.location.href = "index.html";
-            return;
-          }
-
-          if (!category) {
-            alert("카테고리 정보가 없습니다.");
-            window.location.href = "index.html";
-            return;
-          }
-
-          const jsonPath = CATEGORY_FILE_MAP[category];
-
-          if (!jsonPath) {
-            alert("올바르지 않은 카테고리입니다.");
-            window.location.href = "index.html";
-            return;
-          }
-
-          try {
-            const response = await fetch(jsonPath);
-            memes = await response.json();
-
-            if (!Array.isArray(memes) || memes.length === 0) {
-              console.error("문제 데이터를 불러오지 못했습니다.");
-              alert("문제 데이터를 불러오지 못했습니다.");
-              return;
-            }
-
-            resetCurrentUserQuizData();
-            totalScoreEl.textContent = totalScore;
-
-            renderQuestion();
-          } catch (error) {
-            console.error("문제 JSON 불러오기 실패:", error);
-            alert("문제 파일을 불러오는 데 실패했습니다.");
-          }
+          });
+          return;
         }
 
-        function renderQuestion() {
-          if (currentIndex >= memes.length) {
-            endQuiz();
+        if (!category) {
+          showAlert("info", "알림", "카테고리 정보가 없습니다.", () => {
+            window.location.href = "index.html";
+          });
+          return;
+        }
+
+        const jsonPath = CATEGORY_FILE_MAP[category];
+
+        if (!jsonPath) {
+          showAlert("info", "알림", "올바르지 않은 카테고리입니다.", () => {
+            window.location.href = "index.html";
+          });
+          return;
+        }
+
+        try {
+          const response = await fetch(jsonPath);
+          memes = await response.json();
+
+          if (!Array.isArray(memes) || memes.length === 0) {
+            console.error("문제 데이터를 불러오지 못했습니다.");
+            showAlert("info", "알림", "문제 데이터를 불러오지 못했습니다.");
             return;
           }
 
-          const meme = memes[currentIndex];
-          wrongCount = 0;
-
-          progressText.textContent = `문제 ${currentIndex + 1} / ${memes.length}`;
-          questionBadge.textContent = `QUESTION ${currentIndex + 1}`;
-          currentQuestionScore.textContent = `현재 문제 점수 ${QUESTION_SCORE}`;
+          resetCurrentUserQuizData();
           totalScoreEl.textContent = totalScore;
 
-          questionText.textContent = meme.question || "";
-          hintText.textContent = "아직 공개된 힌트가 없습니다.";
+          renderQuestion();
+        } catch (error) {
+          console.error("문제 JSON 불러오기 실패:", error);
+          showAlert("info", "알림", "문제 파일을 불러오는 데 실패했습니다.");
+        }
+      }
 
-          quizImage.src = meme.imgUrl || "";
-          quizImage.alt = meme.memeName || "quiz image";
+      function renderQuestion() {
+        if (currentIndex >= memes.length) {
+          endQuiz();
+          return;
+        }
 
+        const meme = memes[currentIndex];
+        wrongCount = 0;
+
+        progressText.textContent = `문제 ${currentIndex + 1} / ${memes.length}`;
+        questionBadge.textContent = `QUESTION ${currentIndex + 1}`;
+        currentQuestionScore.textContent = `현재 문제 점수 ${QUESTION_SCORE}`;
+        totalScoreEl.textContent = totalScore;
+
+        questionText.textContent = meme.question || "";
+        hintText.textContent = "아직 공개된 힌트가 없습니다.";
+
+        quizImage.src = meme.imgUrl || "";
+        quizImage.alt = meme.memeName || "quiz image";
+
+        answerInput.value = "";
+        answerInput.focus();
+      }
+
+      function normalizeText(text) {
+        return String(text).replace(/\s+/g, "").trim().toLowerCase();
+      }
+
+      function submitAnswer() {
+        if (quizEnded || currentIndex >= memes.length) {
+          return;
+        }
+
+        const meme = memes[currentIndex];
+        const rawUserAnswer = answerInput.value.trim();
+
+        if (rawUserAnswer === "") {
+          showAlert("info", "잠깐!", "정답을 입력해주세요.");
+          return;
+        }
+
+        const userAnswer = normalizeText(rawUserAnswer);
+        const correctAnswer = normalizeText(meme.memeName);
+
+        if (userAnswer === correctAnswer) {
+          const earnedScore =
+            wrongCount === 0 ? QUESTION_SCORE : HINT_QUESTION_SCORE;
+
+          totalScore += earnedScore;
+          totalScoreEl.textContent = totalScore;
+
+          upsertAnswerScore(currentIndex, earnedScore);
+
+          showAlert("correct", "정답!", "정답입니다!", () => {
+            goNextQuestion();
+          });
+          return;
+        }
+
+        wrongCount += 1;
+
+        if (wrongCount === 1) {
+          hintText.textContent = meme.hint || "힌트가 없습니다.";
+          currentQuestionScore.textContent = `현재 문제 점수 ${HINT_QUESTION_SCORE}`;
           answerInput.value = "";
           answerInput.focus();
+
+          showAlert("wrong", "오답!", "틀렸습니다. 힌트가 공개됩니다.");
+          return;
         }
 
-        function normalizeText(text) {
-          return String(text).replace(/\s+/g, "").trim().toLowerCase();
+        if (wrongCount >= 2) {
+          upsertAnswerScore(currentIndex, 0);
+          showAlert(
+            "wrong",
+            "오답!",
+            `틀렸습니다. 정답은 "${meme.memeName}" 입니다.`,
+            () => {
+              goNextQuestion();
+            },
+          );
+        }
+      }
+
+      function goNextQuestion() {
+        currentIndex += 1;
+
+        if (currentIndex >= memes.length) {
+          endQuiz();
+          return;
         }
 
-        function submitAnswer() {
-          if (quizEnded || currentIndex >= memes.length) {
+        renderQuestion();
+      }
+
+      function endQuiz() {
+        quizEnded = true;
+
+        const userData = getUserQuizData();
+        userData.totalScore = totalScore;
+        userData.category = category;
+        saveUserQuizData(userData);
+
+        window.location.href = `./Score.html?nickname=${encodeURIComponent(nickname)}`;
+      }
+
+      answerInput.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+
+          if (event.isComposing) {
             return;
           }
 
-          const meme = memes[currentIndex];
-          const rawUserAnswer = answerInput.value.trim();
-
-          if (rawUserAnswer === "") {
-            alert("정답을 입력해주세요.");
-            return;
-          }
-
-          const userAnswer = normalizeText(rawUserAnswer);
-          const correctAnswer = normalizeText(meme.memeName);
-
-          if (userAnswer === correctAnswer) {
-            const earnedScore =
-              wrongCount === 0 ? QUESTION_SCORE : HINT_QUESTION_SCORE;
-
-            totalScore += earnedScore;
-            totalScoreEl.textContent = totalScore;
-
-            upsertAnswerScore(currentIndex, earnedScore);
-
-            alert("정답입니다.");
-            goNextQuestion();
-            return;
-          }
-
-          wrongCount += 1;
-
-          if (wrongCount === 1) {
-            hintText.textContent = meme.hint || "힌트가 없습니다.";
-            currentQuestionScore.textContent = `현재 문제 점수 ${HINT_QUESTION_SCORE}`;
-            alert("틀렸습니다. 힌트가 공개됩니다.");
-            answerInput.value = "";
-            answerInput.focus();
-            return;
-          }
-
-          if (wrongCount >= 2) {
-            upsertAnswerScore(currentIndex, 0);
-            alert(`틀렸습니다. 정답은 "${meme.memeName}" 입니다.`);
-            goNextQuestion();
-          }
+          submitAnswer();
         }
+      });
 
-        function goNextQuestion() {
-          currentIndex += 1;
-
-          if (currentIndex >= memes.length) {
-            endQuiz();
-            return;
-          }
-
-          renderQuestion();
-        }
-
-        function endQuiz() {
-          quizEnded = true;
-
-          const userData = getUserQuizData();
-          userData.totalScore = totalScore;
-          userData.category = category;
-          saveUserQuizData(userData);
-
-          window.location.href = `./Score.html?nickname=${encodeURIComponent(nickname)}`;
-        }
-
-        answerInput.addEventListener("keydown", (event) => {
-          if (event.key === "Enter") {
-            event.preventDefault();
-
-            if (event.isComposing) {
-              return;
-            }
-
-            submitAnswer();
-          }
-        });
-
-        loadMemes();
-      </script>
-    </body>
+      loadMemes();
+    </script>
   </body>
 </html>

@@ -10,6 +10,11 @@
     <style>
       body {
         margin: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
       }
 
       .container {
@@ -36,10 +41,12 @@
         height: 360px;
         background-image: url("box.png");
         background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-position: center;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-bottom: 80px;
+        margin-bottom: 0px;
       }
 
       .nickname-box input {
@@ -50,9 +57,9 @@
         background: rgba(255, 255, 255, 0.3);
         text-align: center;
         font-weight: bold;
+        border-radius: 12px;
       }
 
-      /* 버튼 그룹 */
       .btn-group {
         display: flex;
         gap: 20px;
@@ -67,21 +74,23 @@
         transition: 0.2s;
         background: rgba(255, 255, 255, 0.6);
         border: none;
+        border-radius: 16px;
+        font-weight: bold;
       }
 
       .btn.selected {
-        background-color: #222;
+        background: black;
         color: white;
-        border-color: #222;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
       }
 
       .btn:hover {
         transform: scale(1.1);
       }
 
-      /* 조개 버튼 */
       .shell-btn {
-        background-color: rgb(255, 255, 255, 0);
+        background-color: transparent;
         border: none;
         position: relative;
         width: 200px;
@@ -104,13 +113,92 @@
         font-weight: bold;
         color: black;
       }
+
+      /* 커스텀 알림 */
+      .alert-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 9999;
+      }
+
+      .alert-overlay.show {
+        display: flex;
+      }
+
+      .alert-card {
+        width: min(420px, 90vw);
+        background: rgba(255, 255, 255, 0.97);
+        border: 6px solid #ffb84d;
+        border-radius: 28px;
+        padding: 34px 28px 26px;
+        text-align: center;
+        box-shadow: 0 22px 45px rgba(0, 0, 0, 0.25);
+        animation: popIn 0.25s ease;
+      }
+
+      .alert-icon {
+        font-size: 56px;
+        margin-bottom: 10px;
+      }
+
+      .alert-title {
+        font-size: 34px;
+        font-weight: bold;
+        color: #2a2016;
+        margin-bottom: 12px;
+      }
+
+      .alert-message {
+        font-size: 24px;
+        color: #3a2d22;
+        line-height: 1.5;
+        margin-bottom: 22px;
+        word-break: keep-all;
+      }
+
+      .alert-btn {
+        border: none;
+        border-radius: 16px;
+        padding: 12px 26px;
+        font-size: 22px;
+        font-weight: bold;
+        cursor: pointer;
+        background: linear-gradient(135deg, #ffe36c, #ffb431);
+        color: #2a2016;
+        box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15);
+      }
+
+      .alert-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .alert-btn:active {
+        transform: translateY(1px);
+      }
+
+      @keyframes popIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
     </style>
   </head>
 
   <body>
     <div class="container">
-      <div class="nickname-box">
-        <input id="nickname" type="text" placeholder="닉네임을 입력하세요" />
+      <div class="box">
+        <div class="nickname-box">
+          <input id="nickname" type="text" placeholder="닉네임을 입력하세요" />
+        </div>
       </div>
 
       <div class="btn-group">
@@ -119,40 +207,74 @@
         <button class="btn" data-value="classic">고전</button>
       </div>
 
-      <!-- 시작 버튼 -->
-      <button onClick="goPage()" class="shell-btn" href="./SolveProblem.html">
+      <button onclick="goPage()" class="shell-btn" type="button">
         <img src="./images/shell.png" alt="" />
         <div class="shell-text">시작</div>
       </button>
     </div>
-  </body>
-  <script>
-    const buttons = document.querySelectorAll(".btn");
 
-    let selectedCategory = "";
+    <!-- 커스텀 알림 -->
+    <div class="alert-overlay" id="alertOverlay">
+      <div class="alert-card">
+        <div class="alert-icon" id="alertIcon">⚠️</div>
+        <div class="alert-title" id="alertTitle">알림</div>
+        <div class="alert-message" id="alertMessage">메시지</div>
+        <button class="alert-btn" id="alertBtn" type="button">확인</button>
+      </div>
+    </div>
 
-    buttons.forEach((button) => {
-      button.addEventListener("click", () => {
-        buttons.forEach((btn) => btn.classList.remove("selected"));
-        button.classList.add("selected");
-        selectedCategory = button.dataset.value;
+    <script>
+      const buttons = document.querySelectorAll(".btn");
+      const alertOverlay = document.getElementById("alertOverlay");
+      const alertTitle = document.getElementById("alertTitle");
+      const alertMessage = document.getElementById("alertMessage");
+      const alertBtn = document.getElementById("alertBtn");
+
+      let selectedCategory = "";
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          buttons.forEach((btn) => btn.classList.remove("selected"));
+          button.classList.add("selected");
+          selectedCategory = button.dataset.value;
+        });
       });
-    });
 
-    function goPage() {
-      const nickname = document.getElementById("nickname").value.trim();
-
-      if (nickname === "") {
-        alert("닉네임을 입력해주세요.");
-        return;
+      function showAlert(title, message) {
+        alertTitle.textContent = title;
+        alertMessage.textContent = message;
+        alertOverlay.classList.add("show");
       }
 
-      if (selectedCategory === "") {
-        alert("카테고리를 선택해주세요.");
-        return;
+      function closeAlert() {
+        alertOverlay.classList.remove("show");
       }
 
-      location.href = `./SolveProblem.html?nickname=${encodeURIComponent(nickname)}&category=${encodeURIComponent(selectedCategory)}`;
-    }
-  </script>
+      alertBtn.addEventListener("click", closeAlert);
+
+      alertOverlay.addEventListener("click", (event) => {
+        if (event.target === alertOverlay) {
+          closeAlert();
+        }
+      });
+
+      function goPage() {
+        const nickname = document.getElementById("nickname").value.trim();
+
+        if (nickname === "") {
+          showAlert("알림", "닉네임을 입력해주세요.");
+          return;
+        }
+
+        if (selectedCategory === "") {
+          showAlert("알림", "카테고리를 선택해주세요.");
+          return;
+        }
+
+        location.href = `./SolveProblem.html?nickname=${encodeURIComponent(
+          nickname,
+        )}&category=${encodeURIComponent(selectedCategory)}`;
+      }
+    </script>
+  </body>
 </html>
