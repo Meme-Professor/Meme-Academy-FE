@@ -1,3 +1,4 @@
+
 <!-- @format -->
 
 <!doctype html>
@@ -22,40 +23,282 @@
         text-decoration: none;
         color: inherit;
       }
-
       .modal {
         display: none;
-        position: fixed; 
-        /* position수정 */
+        position: fixed;
         top: 0;
         left: 0;
         z-index: 999;
         width: 100%;
         height: 100vh;
-        /* /overflow: hidden; */ 
         background: rgba(0, 0, 0, 0.6);
-        justify-content:center;
-        align-items:center;
+        justify-content: center;
+        align-items: center;
       }
-      .modal .modal_popup {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 20px;
+
+      .modal.active {
+        display: flex;
+      }
+
+      .modal_popup {
+        width: 500px;
+        max-height: 80vh;
+        overflow-y: auto;
         background: #ffffff;
         border-radius: 20px;
+        padding: 25px;
+        text-align: center;
+        animation: popup 0.3s ease;
       }
-      .modal.active{
-        display:flex;
+
+      @keyframes popup {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
       }
-      .modal .modal_popup .close_btn {
-        display: block;
+
+      .modal_popup table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+
+      .modal_popup th,
+      .modal_popup td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .modal_popup th {
+        background: #f4f4f4;
+      }
+
+      .modal_buttons {
+        margin-bottom: 10px;
+      }
+
+      .modal_buttons button {
+        margin: 5px;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 10px;
+        background: black;
+        color: white;
+        cursor: pointer;
+      }
+
+      .close_btn {
+        margin-top: 15px;
         padding: 10px 20px;
         background-color: rgb(116, 0, 0);
         border: none;
         border-radius: 5px;
         color: #fff;
         cursor: pointer;
-        transition: box-shadow 0.2s;
       }
+
+      .title {
+        width: 100%;
+        height: 320px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .title-arc {
+        --step: 14deg;
+        --start: -45deg;
+        --radius: 520px;
+        --font-size: 110px;
+        --center-y: 200%;
+        --rotate-scale: 0.35;
+
+        position: relative;
+        width: 100%;
+        margin-left: 40px;
+        height: 320px;
+      }
+
+      .title-arc span {
+        position: absolute;
+        left: 50%;
+        top: var(--center-y);
+        font-size: var(--font-size);
+        font-family: "Do Hyeon", sans-serif;
+        line-height: 1;
+        color: var(--c);
+        -webkit-text-stroke: 2px #111;
+        text-shadow: 6px 6px 0 #f47c48;
+
+        --angle: calc(var(--start) + var(--i) * var(--step));
+
+        transform: translate(-50%, -50%) rotate(var(--angle))
+          translateY(calc(var(--radius) * -1));
+      }
+      .bottom-area {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 0 100px;
+        box-sizing: border-box;
+      }
+
+      .button-container {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .bonobono {
+        width: 25%;
+        height: auto;
+        display: block;
+      }
+
+      .location-button {
+        border: 0;
+        border-radius: 20px;
+        padding: 10px 20px;
+        background-color: black;
+        font-size: 48px;
+        font-family: "Do Hyeon", sans-serif;
+        color: white;
+        white-space: nowrap;
+        align-self: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="modal">
+      <div class="modal_popup">
+        <div class="modal_buttons">
+          <button onclick="make2024Modal()">2024</button>
+          <button onclick="make2025Modal()">2025</button>
+          <button onclick="makeClassicModal()">고전</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>등수</th>
+              <th>아이디</th>
+              <th>점수</th>
+            </tr>
+          </thead>
+          <tbody id="ranking"></tbody>
+        </table>
+
+        <button type="button" class="close_btn" onClick="modalClose()">
+          닫기
+        </button>
+      </div>
+    </div>
+    <div class="rainbow-bg">
+      <div class="title">
+        <div class="title-arc">
+          <span style="--i: 0; --c: #ff8a8a">제</span>
+          <span style="--i: 1; --c: #ffd65c">1</span>
+          <span style="--i: 2; --c: #ffe66d">회</span>
+          <span style="--i: 3; --c: #2df0a1">밈</span>
+          <span style="--i: 4; --c: #22a7ff">퀴</span>
+          <span style="--i: 5; --c: #1792ff">즈</span>
+          <span style="--i: 6; --c: #0d63d8">쇼</span>
+          <span style="--i: 7; --c: #a95cff">~</span>
+        </div>
+      </div>
+      <div class="bottom-area">
+        <div class="button-container">
+          <a class="location-button" href="./Nickname.html">게임 시작</a>
+          <img class="bonobono" src="./images/bonobono.png" alt="Bonobono" />
+          <button onClick="modalOpen()" class="location-button">
+            랭킹 보기
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const modal = document.querySelector(".modal");
+
+    const rankDataClassic = [
+      { id: "우울할땐 똥싸", score: "92" },
+      { id: "사라진초밥십인분", score: "88" },
+      { id: "밈중독자", score: "85" },
+      { id: "인터넷고인물", score: "82" },
+      { id: "쇼츠과몰입", score: "79" },
+      { id: "틱톡지배자", score: "75" },
+      { id: "AI짤장인", score: "70" },
+      { id: "유튜브폐인", score: "65" },
+      { id: "밈연구소장", score: "60" },
+      { id: "신입밈러", score: "55" },
+    ];
+
+    const rankData2024 = [
+      { id: "쇼츠중독자", score: "94" },
+      { id: "릴스마스터", score: "91" },
+      { id: "밈수집가", score: "87" },
+      { id: "알고리즘지배자", score: "84" },
+      { id: "트렌드헌터", score: "80" },
+      { id: "숏폼장인", score: "77" },
+      { id: "댓글요정", score: "73" },
+      { id: "좋아요수집러", score: "68" },
+      { id: "밈탐험가", score: "63" },
+      { id: "신입유저", score: "58" },
+    ];
+
+    const rankData2025 = [
+      { id: "AI밈장인", score: "98" },
+      { id: "밈GPT", score: "95" },
+      { id: "트렌드지배자", score: "92" },
+      { id: "밈크리에이터", score: "89" },
+      { id: "버즈메이커", score: "85" },
+      { id: "콘텐츠마법사", score: "81" },
+      { id: "알고리즘고수", score: "76" },
+      { id: "밈분석가", score: "72" },
+      { id: "뉴미디어러버", score: "67" },
+      { id: "초보밈러", score: "60" },
+    ];
+
+    function modalOpen() {
+      modal.classList.add("active");
+      makeClassicModal();
+    }
+
+    function modalClose() {
+      modal.classList.remove("active");
+    }
+
+    function renderRank(data) {
+      const ranking = document.getElementById("ranking");
+      ranking.innerHTML = "";
+
+      data.forEach((item, index) => {
+        ranking.innerHTML += `
+        <tr>
+          <td>${index + 1}등</td>
+          <td>${item.id}</td>
+          <td>${item.score}</td>
+        </tr>
+      `;
+      });
+    }
+
+    function makeClassicModal() {
+      renderRank(rankDataClassic);
+    }
+
+    function make2024Modal() {
+      renderRank(rankData2024);
+    }
+
+    function make2025Modal() {
+      renderRank(rankData2025);
+    }
+  </script>
+</html>
