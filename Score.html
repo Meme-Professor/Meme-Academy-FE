@@ -1,3 +1,5 @@
+<!-- @format -->
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -156,7 +158,7 @@
   <body>
     <div class="rainbow-bg">
       <div class="scoreBox">
-        <img class="aje" src="aje.png" />
+        <img class="aje" src="./images/aje.png" />
         <p class="scoreBox-text">결과 텍스트</p>
         <p class="scoreBox-score">점수</p>
       </div>
@@ -164,55 +166,62 @@
       <div class="rankingBox"></div>
 
       <div class="glass">
-        <img src="glass.png" />
+        <img src="./images/glass.png" />
       </div>
 
       <div class="result">
-        <button class="resultbtn">결과 보러 가기</button>
+        <a href="./ResultPage.html" class="resultbtn">결과 보러 가기</a>
       </div>
     </div>
 
     <script>
-      // 테스트용
-      let score = 83;
-
       const resultData = [
-        { min: 0, max: 20, img: "aje.png", text: "아재시군요…. 아자스!!" },
+        {
+          min: 0,
+          max: 20,
+          img: "./images/aje.png",
+          text: "아재시군요…. 아자스!!",
+        },
         {
           min: 21,
           max: 40,
-          img: "aje2.png",
+          img: "./images/aje2.png",
           text: "밈 사망선고 내리겠습니다 삐———-",
         },
         {
           min: 41,
           max: 60,
-          img: "aje3.png",
+          img: "./images/aje3.png",
           text: "당신은 M도 Z도 아닌 그 무언가…",
         },
-        { min: 61, max: 80, img: "mz.png", text: "당신 꽤나 MZ?" },
+        { min: 61, max: 80, img: "./images/mz.png", text: "당신 꽤나 MZ?" },
         {
           min: 81,
           max: 100,
-          img: "mz2.png",
+          img: "./images/mz2.png",
           text: "당신을 밈 지박령으로 임명합니다",
         },
       ];
+
+      const params = new URLSearchParams(window.location.search);
+      const nickname = params.get("nickname");
+      const totalScore = JSON.parse(localStorage.getItem(nickname)).totalScore;
+      const category = JSON.parse(localStorage.getItem(nickname)).category;
 
       const imgEl = document.querySelector(".aje");
       const textEl = document.querySelector(".scoreBox-text");
       const scoreEl = document.querySelector(".scoreBox-score");
 
       const result = resultData.find(
-        (item) => score >= item.min && score <= item.max,
+        (item) => totalScore >= item.min && totalScore <= item.max,
       );
 
       if (result) {
         imgEl.src = result.img;
         textEl.innerText = result.text;
-        scoreEl.innerText = `당신의 점수는 ${score}점입니다.`;
+        scoreEl.innerText = `당신의 점수는 ${totalScore}점입니다.`;
 
-        if (score >= 81) {
+        if (totalScore >= 81) {
           imgEl.classList.add("last-result");
         }
       }

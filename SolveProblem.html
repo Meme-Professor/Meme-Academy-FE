@@ -158,6 +158,7 @@
         border-radius: 18px;
         padding: 18px 20px;
         border: 2px solid rgba(255, 255, 255, 0.14);
+        flex: 1;
       }
 
       .info-label {
@@ -181,41 +182,19 @@
         min-height: 90px;
       }
 
-      .options-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      .option-chip {
-        border: 3px solid #2b180d;
-        background: #fff4c0;
-        color: #2b180d;
-        border-radius: 999px;
-        padding: 8px 14px;
-        font-family: "Do Hyeon", sans-serif;
-        font-size: 21px;
-        cursor: pointer;
-        transition: transform 0.15s ease;
-      }
-
-      .option-chip:hover {
-        transform: translateY(-2px);
-      }
-
       .image-panel {
         background: rgba(255, 255, 255, 0.08);
         border-radius: 22px;
         padding: 16px;
         display: flex;
-        flex-direction: column;
+        align-items: center;
         justify-content: space-between;
         border: 2px solid rgba(255, 255, 255, 0.14);
+        height: 550px;
       }
 
       .image-panel img {
         width: 100%;
-        height: 270px;
         object-fit: cover;
         border-radius: 18px;
         border: 5px solid rgba(255, 255, 255, 0.25);
@@ -347,6 +326,10 @@
         color: #2b180d;
         border: none;
         margin-right: 40px;
+      }
+      .burst input:-webkit-autofill {
+        color: #2b180d;
+        background: rgba(255, 255, 255, 0.55);
       }
 
       .action-buttons {
@@ -512,15 +495,6 @@
                       아직 공개된 힌트가 없습니다.
                     </div>
                   </div>
-
-                  <div
-                    class="info-block options-block"
-                    id="optionsBlock"
-                    style="display: none"
-                  >
-                    <div class="info-label">보기</div>
-                    <div class="options-list" id="optionsList"></div>
-                  </div>
                 </div>
 
                 <div class="image-panel">
@@ -529,9 +503,6 @@
                     src="./images/QuestionMark.jpg"
                     alt="quiz image"
                   />
-                  <div class="image-caption" id="imageCaption">
-                    이미지는 오답 2회 후 공개됩니다
-                  </div>
                 </div>
               </div>
             </section>
@@ -572,8 +543,6 @@
       </div>
 
       <script>
-        const QUESTION_MARK_IMAGE = "/images/QuestionMark.jpg";
-
         const progressText = document.getElementById("progressText");
         const totalScoreEl = document.getElementById("totalScore");
         const questionBadge = document.getElementById("questionBadge");
@@ -583,79 +552,163 @@
         const questionText = document.getElementById("questionText");
         const hintText = document.getElementById("hintText");
         const quizImage = document.getElementById("quizImage");
-        const imageCaption = document.getElementById("imageCaption");
         const answerInput = document.getElementById("answerInput");
         const submitBtn = document.getElementById("submitBtn");
         const nextBtn = document.getElementById("nextBtn");
-        const originLink = document.getElementById("originLink");
-        const optionsBlock = document.getElementById("optionsBlock");
-        const optionsList = document.getElementById("optionsList");
+
+        const QUESTION_SCORE = 10;
+        const HINT_QUESTION_SCORE = 5;
+
+        const params = new URLSearchParams(window.location.search);
+        const nickname = params.get("nickname");
+        const category = params.get("category");
+
+        const CATEGORY_FILE_MAP = {
+          2025: "./meme2025.json",
+          2024: "./meme2024.json",
+          classic: "./memeClassic.json",
+        };
 
         let memes = [];
         let currentIndex = 0;
         let totalScore = 0;
         let wrongCount = 0;
-        let currentPossibleScore = 100;
         let quizEnded = false;
 
-        async function loadMemes() {
+        function getStorageKey() {
+          return nickname;
+        }
+
+        function getInitialUserData() {
+          return {
+            nickname: nickname,
+            category: category,
+            totalScore: 0,
+            answers: [],
+          };
+        }
+
+        function getUserQuizData() {
+          const storageKey = getStorageKey();
+          const saved = localStorage.getItem(storageKey);
+
+          if (!saved) {
+            return getInitialUserData();
+          }
+
           try {
-            const response = await fetch("./meme2025.json");
+            const parsed = JSON.parse(saved);
+
+            return {
+              nickname: nickname,
+              category: category,
+              totalScore:
+                typeof parsed.totalScore === "number" ? parsed.totalScore : 0,
+              answers: Array.isArray(parsed.answers) ? parsed.answers : [],
+            };
+          } catch (error) {
+            return getInitialUserData();
+          }
+        }
+
+        function saveUserQuizData(data) {
+          const storageKey = getStorageKey();
+          localStorage.setItem(storageKey, JSON.stringify(data));
+        }
+
+        function resetCurrentUserQuizData() {
+          const initialData = getInitialUserData();
+          saveUserQuizData(initialData);
+          totalScore = 0;
+        }
+
+        function upsertAnswerScore(questionIndex, score) {
+          const userData = getUserQuizData();
+
+          const existingIndex = userData.answers.findIndex(
+            (item) => item.questionIndex === questionIndex,
+          );
+
+          const record = {
+            questionIndex: questionIndex,
+            score: score,
+          };
+
+          if (existingIndex >= 0) {
+            userData.answers[existingIndex] = record;
+          } else {
+            userData.answers.push(record);
+          }
+
+          userData.totalScore = totalScore;
+          userData.category = category;
+
+          saveUserQuizData(userData);
+        }
+
+        async function loadMemes() {
+          if (!nickname) {
+            alert("닉네임 정보가 없습니다.");
+            window.location.href = "index.html";
+            return;
+          }
+
+          if (!category) {
+            alert("카테고리 정보가 없습니다.");
+            window.location.href = "index.html";
+            return;
+          }
+
+          const jsonPath = CATEGORY_FILE_MAP[category];
+
+          if (!jsonPath) {
+            alert("올바르지 않은 카테고리입니다.");
+            window.location.href = "index.html";
+            return;
+          }
+
+          try {
+            const response = await fetch(jsonPath);
             memes = await response.json();
 
             if (!Array.isArray(memes) || memes.length === 0) {
               console.error("문제 데이터를 불러오지 못했습니다.");
+              alert("문제 데이터를 불러오지 못했습니다.");
               return;
             }
 
+            resetCurrentUserQuizData();
+            totalScoreEl.textContent = totalScore;
+
             renderQuestion();
           } catch (error) {
-            console.error("meme2025.json 불러오기 실패:", error);
+            console.error("문제 JSON 불러오기 실패:", error);
+            alert("문제 파일을 불러오는 데 실패했습니다.");
           }
         }
 
         function renderQuestion() {
-          const meme = memes[currentIndex];
-          wrongCount = 0;
-          currentPossibleScore = 100;
-
-          progressText.textContent = `문제 ${currentIndex + 1} / ${memes.length}`;
-          questionBadge.textContent = `QUESTION ${currentIndex + 1}`;
-          currentQuestionScore.textContent = `현재 문제 점수 ${currentPossibleScore}`;
-          totalScoreEl.textContent = totalScore;
-
-          questionText.textContent = meme.question;
-          hintText.textContent = "아직 공개된 힌트가 없습니다.";
-          quizImage.src = QUESTION_MARK_IMAGE;
-          quizImage.alt = "question mark";
-          imageCaption.textContent = "이미지는 오답 2회 후 공개됩니다";
-          answerInput.value = "";
-          originLink.href = meme.originUrl || "#";
-
-          renderOptions(meme.options);
-          answerInput.focus();
-        }
-
-        function renderOptions(options) {
-          if (!options || !Array.isArray(options) || options.length === 0) {
-            optionsBlock.style.display = "none";
-            optionsList.innerHTML = "";
+          if (currentIndex >= memes.length) {
+            endQuiz();
             return;
           }
 
-          optionsBlock.style.display = "block";
-          optionsList.innerHTML = "";
+          const meme = memes[currentIndex];
+          wrongCount = 0;
 
-          options.forEach((option) => {
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "option-chip";
-            button.textContent = option;
-            button.addEventListener("click", () => {
-              answerInput.value = option;
-            });
-            optionsList.appendChild(button);
-          });
+          progressText.textContent = `문제 ${currentIndex + 1} / ${memes.length}`;
+          questionBadge.textContent = `QUESTION ${currentIndex + 1}`;
+          currentQuestionScore.textContent = `현재 문제 점수 ${QUESTION_SCORE}`;
+          totalScoreEl.textContent = totalScore;
+
+          questionText.textContent = meme.question || "";
+          hintText.textContent = "아직 공개된 힌트가 없습니다.";
+
+          quizImage.src = meme.imgUrl || "";
+          quizImage.alt = meme.memeName || "quiz image";
+
+          answerInput.value = "";
+          answerInput.focus();
         }
 
         function normalizeText(text) {
@@ -663,71 +716,83 @@
         }
 
         function submitAnswer() {
-          if (quizEnded || currentIndex >= memes.length) return;
-
-          const meme = memes[currentIndex];
-          const userAnswer = normalizeText(answerInput.value);
-          const correctAnswer = normalizeText(meme.memeName);
-
-          if (!userAnswer) {
+          if (quizEnded || currentIndex >= memes.length) {
             return;
           }
 
+          const meme = memes[currentIndex];
+          const rawUserAnswer = answerInput.value.trim();
+
+          if (rawUserAnswer === "") {
+            alert("정답을 입력해주세요.");
+            return;
+          }
+
+          const userAnswer = normalizeText(rawUserAnswer);
+          const correctAnswer = normalizeText(meme.memeName);
+
           if (userAnswer === correctAnswer) {
-            totalScore += currentPossibleScore;
+            const earnedScore =
+              wrongCount === 0 ? QUESTION_SCORE : HINT_QUESTION_SCORE;
+
+            totalScore += earnedScore;
             totalScoreEl.textContent = totalScore;
+
+            upsertAnswerScore(currentIndex, earnedScore);
+
+            alert("정답입니다.");
             goNextQuestion();
-
-            setTimeout(() => {
-              currentIndex += 1;
-              renderQuestion();
-            }, 1000);
-
             return;
           }
 
           wrongCount += 1;
 
           if (wrongCount === 1) {
-            currentPossibleScore = 80;
-            currentQuestionScore.textContent = `현재 문제 점수 ${currentPossibleScore}`;
             hintText.textContent = meme.hint || "힌트가 없습니다.";
-            console.log("틀렸습니다. 초성 힌트가 공개됐어요.");
+            currentQuestionScore.textContent = `현재 문제 점수 ${HINT_QUESTION_SCORE}`;
+            alert("틀렸습니다. 힌트가 공개됩니다.");
+            answerInput.value = "";
+            answerInput.focus();
             return;
           }
 
-          if (wrongCount === 2) {
-            currentPossibleScore = 60;
-            currentQuestionScore.textContent = `현재 문제 점수 ${currentPossibleScore}`;
-            quizImage.src = meme.imgUrl || QUESTION_MARK_IMAGE;
-            quizImage.alt = meme.memeName;
-            imageCaption.textContent = "이미지가 공개되었습니다";
-            console.log("틀렸습니다. 이미지 힌트가 공개됐어요.");
-            return;
-          }
-
-          if (wrongCount >= 3) {
-            currentPossibleScore = 0;
+          if (wrongCount >= 2) {
+            upsertAnswerScore(currentIndex, 0);
+            alert(`틀렸습니다. 정답은 "${meme.memeName}" 입니다.`);
             goNextQuestion();
           }
-
-          setTimeout(() => {
-            currentIndex += 1;
-            renderQuestion();
-          }, 1400);
         }
 
         function goNextQuestion() {
-          if (currentIndex >= memes.length - 1) {
-            window.location.href = "ResultPage.html";
+          currentIndex += 1;
+
+          if (currentIndex >= memes.length) {
+            endQuiz();
             return;
           }
-          currentIndex += 1;
+
           renderQuestion();
+        }
+
+        function endQuiz() {
+          quizEnded = true;
+
+          const userData = getUserQuizData();
+          userData.totalScore = totalScore;
+          userData.category = category;
+          saveUserQuizData(userData);
+
+          window.location.href = `score.html?nickname=${encodeURIComponent(nickname)}`;
         }
 
         answerInput.addEventListener("keydown", (event) => {
           if (event.key === "Enter") {
+            event.preventDefault();
+
+            if (event.isComposing) {
+              return;
+            }
+
             submitAnswer();
           }
         });
