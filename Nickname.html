@@ -5,12 +5,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"
+      rel="stylesheet"
+    />
     <title>닉네임 입력</title>
 
     <style>
       body {
         margin: 0;
-        font-family: Arial, sans-serif;
       }
 
       * {
@@ -55,9 +62,23 @@
         border: none;
         outline: none;
         background: rgba(255, 255, 255, 0.3);
+        color: #000;
         text-align: center;
         font-weight: bold;
         border-radius: 12px;
+        font-family: "Do Hyeon", sans-serif;
+      }
+
+      .nickname-box input:-webkit-autofill,
+      .nickname-box input:-webkit-autofill:hover,
+      .nickname-box input:-webkit-autofill:focus,
+      .nickname-box input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.3) inset;
+        -webkit-text-fill-color: #000;
+        border: none;
+        outline: none;
+        border-radius: 12px;
+        transition: background-color 5000s ease-in-out 0s;
       }
 
       .btn-group {
@@ -76,6 +97,7 @@
         border: none;
         border-radius: 16px;
         font-weight: bold;
+        font-family: "Do Hyeon", sans-serif;
       }
 
       .btn.selected {
@@ -96,6 +118,7 @@
         width: 200px;
         height: 200px;
         cursor: pointer;
+        font-family: "Do Hyeon", sans-serif;
       }
 
       .shell-btn img {
@@ -106,8 +129,8 @@
 
       .shell-text {
         position: absolute;
-        top: 55%;
-        left: 50%;
+        top: 52%;
+        left: 53%;
         transform: translate(-50%, -50%);
         font-size: 40px;
         font-weight: bold;
