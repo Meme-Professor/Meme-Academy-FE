@@ -16,6 +16,10 @@
         font-family: "Do Hyeon", sans-serif;
       }
 
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
       * {
         box-sizing: border-box;
       }
@@ -99,7 +103,7 @@
       }
 
       .quiz-panel {
-        width: min(1100px, 100%);
+        width: 75%;
         display: flex;
         flex-direction: column;
         gap: 18px;
@@ -211,7 +215,7 @@
 
       .burst-border {
         position: relative;
-        width: 900px;
+        width: 80%;
         height: 166px;
         background: #111;
         clip-path: polygon(
@@ -258,43 +262,7 @@
         position: absolute;
         inset: 0;
         background: #f7c928;
-        clip-path: polygon(
-          7% 43%,
-          19% 43%,
-          13% 30%,
-          22% 34%,
-          18% 4%,
-          35% 24%,
-          40% 4%,
-          47% 18%,
-          54% 4%,
-          59% 20%,
-          68% 7%,
-          64% 25%,
-          78% 20%,
-          71% 34%,
-          92% 28%,
-          78% 42%,
-          93% 48%,
-          76% 54%,
-          80% 68%,
-          71% 64%,
-          79% 88%,
-          64% 69%,
-          64% 91%,
-          53% 79%,
-          47% 97%,
-          40% 83%,
-          35% 93%,
-          30% 82%,
-          19% 95%,
-          20% 77%,
-          6% 87%,
-          8% 72%,
-          2% 68%,
-          15% 58%,
-          0% 43%
-        );
+        clip-path: inherit;
         transform: scale(0.985);
         transform-origin: center;
         display: flex;
@@ -303,12 +271,13 @@
         align-items: center;
         justify-content: center;
         color: #111;
-        padding-right: 45px;
+        padding: 0 24px;
       }
 
       .burst input {
-        width: 40%;
-        margin-right: 40px;
+        width: 50%;
+        margin-right: 9%;
+        margin-bottom: 5px;
         padding: 12px 14px;
         border: none;
         outline: none;
@@ -330,8 +299,9 @@
         -webkit-text-fill-color: #2b180d;
         caret-color: #2b180d;
 
-        width: 40%;
-        margin-right: 40px;
+        width: 50%;
+        margin-right: 60px;
+        margin-bottom: 5px;
         padding: 12px 14px;
         border: none;
         outline: none;
@@ -359,6 +329,7 @@
         background: transparent;
         padding: 0;
         transition: transform 0.15s ease;
+        font-family: "Do Hyeon", sans-serif;
       }
 
       .shell-btn:hover {
@@ -1027,6 +998,13 @@
       }
 
       answerInput.addEventListener("keydown", (event) => {
+        if (alertOverlay.classList.contains("show")) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+          }
+          return;
+        }
+
         if (event.key === "Enter") {
           event.preventDefault();
 
