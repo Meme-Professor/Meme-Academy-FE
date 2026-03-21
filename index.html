@@ -18,10 +18,19 @@
     <link rel="stylesheet" href="./mainBG.css" />
 
     <style>
+      body {
+        font-family: "Do Hyeon", sans-serif;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+
       a {
         text-decoration: none;
         color: inherit;
       }
+
       .modal {
         display: none;
         position: fixed;
@@ -92,7 +101,6 @@
       }
 
       .close_btn {
-        margin-top: 15px;
         padding: 10px 20px;
         background-color: rgb(116, 0, 0);
         border: none;
@@ -100,11 +108,6 @@
         color: #fff;
         cursor: pointer;
         transition: box-shadow 0.2s;
-        margin-top: 10px;
-      }
-
-      .close_btn {
-        margin-left: 180px;
       }
 
       .title {
@@ -233,6 +236,11 @@
         color: white;
       }
 
+      .table-wrap {
+        height: 500px;
+        overflow-y: auto;
+      }
+
       table {
         border-collapse: collapse;
         width: 100%;
@@ -260,20 +268,23 @@
           <button onclick="makeClassicModal()">고전</button>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>등수</th>
-              <th>아이디</th>
-              <th>점수</th>
-            </tr>
-          </thead>
-          <tbody id="ranking"></tbody>
-        </table>
-
-        <button type="button" class="close_btn" onClick="modalClose()">
-          닫기
-        </button>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>등수</th>
+                <th>아이디</th>
+                <th>점수</th>
+              </tr>
+            </thead>
+            <tbody id="ranking"></tbody>
+          </table>
+        </div>
+        <div style="display: flex; justify-content: center; margin-top: 10px">
+          <button type="button" class="close_btn" onClick="modalClose()">
+            닫기
+          </button>
+        </div>
       </div>
     </div>
 
@@ -306,55 +317,6 @@
   <script>
     const modal = document.querySelector(".modal");
 
-    const rankDataClassic = [
-      { id: "우울할땐 똥싸", score: "92" },
-      { id: "사라진초밥십인분", score: "88" },
-      { id: "밈중독자", score: "85" },
-      { id: "인터넷고인물", score: "82" },
-      { id: "쇼츠과몰입", score: "79" },
-      { id: "틱톡지배자", score: "75" },
-      { id: "AI짤장인", score: "70" },
-      { id: "유튜브폐인", score: "65" },
-      { id: "밈연구소장", score: "60" },
-      { id: "신입밈러", score: "55" },
-      { id: "우울할땐 똥싸", score: "92" },
-      { id: "사라진초밥십인분", score: "88" },
-      { id: "밈중독자", score: "85" },
-      { id: "인터넷고인물", score: "82" },
-      { id: "쇼츠과몰입", score: "79" },
-      { id: "틱톡지배자", score: "75" },
-      { id: "AI짤장인", score: "70" },
-      { id: "유튜브폐인", score: "65" },
-      { id: "밈연구소장", score: "60" },
-      { id: "신입밈러", score: "55" },
-    ];
-
-    const rankData2024 = [
-      { id: "쇼츠중독자", score: "94" },
-      { id: "릴스마스터", score: "91" },
-      { id: "밈수집가", score: "87" },
-      { id: "알고리즘지배자", score: "84" },
-      { id: "트렌드헌터", score: "80" },
-      { id: "숏폼장인", score: "77" },
-      { id: "댓글요정", score: "73" },
-      { id: "좋아요수집러", score: "68" },
-      { id: "밈탐험가", score: "63" },
-      { id: "신입유저", score: "58" },
-    ];
-
-    const rankData2025 = [
-      { id: "AI밈장인", score: "98" },
-      { id: "밈GPT", score: "95" },
-      { id: "트렌드지배자", score: "92" },
-      { id: "밈크리에이터", score: "89" },
-      { id: "버즈메이커", score: "85" },
-      { id: "콘텐츠마법사", score: "81" },
-      { id: "알고리즘고수", score: "76" },
-      { id: "밈분석가", score: "72" },
-      { id: "뉴미디어러버", score: "67" },
-      { id: "초보밈러", score: "60" },
-    ];
-
     function modalOpen() {
       modal.classList.add("active");
       makeClassicModal();
@@ -362,6 +324,18 @@
 
     function modalClose() {
       modal.classList.remove("active");
+    }
+
+    function makeClassicModal() {
+      renderRanking(getRankingByCategory("classic"));
+    }
+
+    function make2024Modal() {
+      renderRanking(getRankingByCategory("2024"));
+    }
+
+    function make2025Modal() {
+      renderRanking(getRankingByCategory("2025"));
     }
 
     function renderRanking(data, title) {
@@ -378,37 +352,45 @@
       }
 
       document.getElementById("ranking").innerHTML = `
-        <div class="rank-category-buttons">
-          <button onclick="make2024Modal()">2024</button>
-          <button onclick="make2025Modal()">2025</button>
-          <button onclick="makeClassicModal()">고전</button>
-        </div>
-
-        <table>
-          <thead>
-            <tr>
-              <th>등수</th>
-              <th>아이디</th>
-              <th>점수</th>
-            </tr>
-          </thead>
+        
           <tbody>
             ${rows}
           </tbody>
-        </table>
+ 
       `;
     }
 
-    function makeClassicModal() {
-      renderRanking(rankDataClassic, "고전");
-    }
+    function getRankingByCategory(targetCategory) {
+      const ranking = [];
 
-    function make2024Modal() {
-      renderRanking(rankData2024, "2024");
-    }
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const rawValue = localStorage.getItem(key);
 
-    function make2025Modal() {
-      renderRanking(rankData2025, "2025");
+        if (!rawValue) continue;
+
+        try {
+          const data = JSON.parse(rawValue);
+
+          if (
+            data &&
+            typeof data === "object" &&
+            data.category === targetCategory &&
+            typeof data.totalScore === "number"
+          ) {
+            ranking.push({
+              id: data.nickname,
+              score: data.totalScore,
+            });
+          }
+        } catch (error) {
+          continue;
+        }
+      }
+
+      ranking.sort((a, b) => b.score - a.score);
+
+      return ranking;
     }
 
     makeClassicModal();
