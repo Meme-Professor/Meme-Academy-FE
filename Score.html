@@ -138,8 +138,6 @@
       }
 
       .resultbtn {
-        width: 600px;
-        height: 178px;
         background-color: transparent;
         border: none;
         font-size: 68px;
@@ -170,7 +168,7 @@
       </div>
 
       <div class="result">
-        <a href="./ResultPage.html" class="resultbtn">결과 보러 가기</a>
+        <button onclick="resultPage();" class="resultbtn">결과 보러 가기</button>
       </div>
     </div>
 
@@ -224,6 +222,10 @@
         if (totalScore >= 81) {
           imgEl.classList.add("last-result");
         }
+      }
+
+      function resultPage() {
+        window.location.href = `./ResultPage.html?nickname=${encodeURIComponent(nickname)}`;
       }
     </script>
   </body>
