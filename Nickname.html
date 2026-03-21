@@ -55,9 +55,22 @@
         border: none;
         outline: none;
         background: rgba(255, 255, 255, 0.3);
+        color: #000;
         text-align: center;
         font-weight: bold;
         border-radius: 12px;
+      }
+
+      .nickname-box input:-webkit-autofill,
+      .nickname-box input:-webkit-autofill:hover,
+      .nickname-box input:-webkit-autofill:focus,
+      .nickname-box input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.3) inset;
+        -webkit-text-fill-color: #000;
+        border: none;
+        outline: none;
+        border-radius: 12px;
+        transition: background-color 5000s ease-in-out 0s;
       }
 
       .btn-group {

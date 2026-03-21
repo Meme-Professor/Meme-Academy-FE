@@ -309,20 +309,39 @@
       .burst input {
         width: 40%;
         margin-right: 40px;
+        padding: 12px 14px;
+        border: none;
         outline: none;
         background: rgba(255, 255, 255, 0.55);
-        font-size: 30px;
-        border-radius: 14px;
-        text-align: center;
-        padding: 12px 14px;
-        font-family: "Do Hyeon", sans-serif;
         color: #2b180d;
-        border: none;
+        font-size: 30px;
+        font-family: "Do Hyeon", sans-serif;
+        text-align: center;
+        border-radius: 14px;
+        appearance: none;
+        -webkit-appearance: none;
       }
 
-      .burst input:-webkit-autofill {
-        color: #2b180d;
-        background: rgba(255, 255, 255, 0.55);
+      .burst input:-webkit-autofill,
+      .burst input:-webkit-autofill:hover,
+      .burst input:-webkit-autofill:focus,
+      .burst input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0) inset;
+        -webkit-text-fill-color: #2b180d;
+        caret-color: #2b180d;
+
+        width: 40%;
+        margin-right: 40px;
+        padding: 12px 14px;
+        border: none;
+        outline: none;
+        font-size: 30px;
+        font-family: "Do Hyeon", sans-serif;
+        text-align: center;
+        border-radius: 14px;
+        -webkit-appearance: none;
+
+        transition: background-color 5000s ease-in-out 0s;
       }
 
       .action-buttons {
