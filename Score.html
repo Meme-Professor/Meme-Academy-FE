@@ -5,11 +5,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"
+      rel="stylesheet"
+    />
     <title>결과 페이지</title>
 
     <style>
       body {
         margin: 0;
+        font-family: "Do Hyeon", sans-serif;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
       }
 
       .rainbow-bg {
@@ -70,8 +88,8 @@
       }
 
       .glass img {
-        width: 700px;
-        height: 400px;
+        width: 500px;
+        height: 350px;
       }
 
       /* 결과 박스 */
@@ -122,19 +140,10 @@
         margin: 0;
       }
 
-      .rankingBox {
-        position: absolute;
-        width: 300px;
-        height: 400px;
-        background-color: white;
-        top: 50px;
-        left: 1050px;
-      }
-
       .result {
         position: absolute;
-        top: 650px;
-        left: 400px;
+        left: 40%;
+        bottom: 30px;
       }
 
       .resultbtn {
@@ -150,6 +159,78 @@
         transform: scale(1.03);
         color: #ffd700;
       }
+
+      .close_btn {
+        padding: 10px 20px;
+        background-color: rgb(116, 0, 0);
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        transition: box-shadow 0.2s;
+      }
+
+      .category_text {
+        width: 100px;
+        margin: 5px;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 10px;
+        background: rgb(255, 255, 255, 0.2);
+        color: black;
+        font-weight: bold;
+        font-family: "Do Hyeon", sans-serif;
+      }
+
+      .modal_popup {
+        font-family: "Do Hyeon", sans-serif;
+        position: absolute;
+        background-color: rgb(255, 255, 255, 0.3);
+        width: 300px;
+        top: 50px;
+        right: 100px;
+        max-height: 80vh;
+        overflow-y: auto;
+        border-radius: 20px;
+        padding: 25px;
+        text-align: center;
+        animation: popup 0.3s ease;
+      }
+
+      .modal_popup table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .modal_popup th,
+      .modal_popup td {
+        padding: 10px;
+      }
+
+      .modal_popup th {
+        background: rgb(255, 255, 255, 0.3);
+      }
+
+      .table-wrap {
+        height: 260px;
+        margin-top: 15px;
+        overflow-y: auto;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        padding: 10px 14px;
+        text-align: center;
+      }
+
+      th {
+        background: rgb(255, 255, 255, 0.3);
+      }
     </style>
   </head>
 
@@ -161,7 +242,29 @@
         <p class="scoreBox-score">점수</p>
       </div>
 
-      <div class="rankingBox"></div>
+      <div class="modal_popup">
+        <div style="display: flex; justify-content: center">
+          <div id="categoryText" class="category_text"></div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <colgroup>
+              <col style="width: 25%" />
+              <col style="width: 50%" />
+              <col style="width: 25%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>등수</th>
+                <th>아이디</th>
+                <th>점수</th>
+              </tr>
+            </thead>
+            <tbody id="ranking"></tbody>
+          </table>
+        </div>
+      </div>
 
       <div class="glass">
         <img src="./images/glass.png" />
@@ -172,7 +275,7 @@
       </div>
     </div>
 
-    <script>
+    <script type="module">
       const resultData = [
         {
           min: 0,
@@ -206,9 +309,14 @@
       const totalScore = JSON.parse(localStorage.getItem(nickname)).totalScore;
       const category = JSON.parse(localStorage.getItem(nickname)).category;
 
+      const categoryText = category === "classic" ? "클래식" : category;
+
       const imgEl = document.querySelector(".aje");
       const textEl = document.querySelector(".scoreBox-text");
       const scoreEl = document.querySelector(".scoreBox-score");
+
+      document.getElementById("categoryText").textContent =
+        `${categoryText} 밈 랭킹`;
 
       const result = resultData.find(
         (item) => totalScore >= item.min && totalScore <= item.max,
@@ -227,6 +335,61 @@
       function resultPage() {
         window.location.href = `./ResultPage.html?nickname=${encodeURIComponent(nickname)}`;
       }
+      function getRankingByCategory(targetCategory) {
+        const ranking = [];
+
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          const rawValue = localStorage.getItem(key);
+
+          if (!rawValue) continue;
+
+          try {
+            const data = JSON.parse(rawValue);
+
+            if (
+              data &&
+              typeof data === "object" &&
+              data.category === targetCategory &&
+              typeof data.totalScore === "number"
+            ) {
+              ranking.push({
+                id: data.nickname,
+                score: data.totalScore,
+              });
+            }
+          } catch (error) {
+            continue;
+          }
+        }
+
+        ranking.sort((a, b) => b.score - a.score);
+
+        return ranking;
+      }
+
+      function renderRanking(data, title) {
+        let rows = "";
+
+        for (let i = 0; i < data.length; i++) {
+          rows += `
+          <tr>
+            <td style="width: ">${i + 1}등</td>
+            <td>${data[i].id}</td>
+            <td>${data[i].score}</td>
+          </tr>
+        `;
+        }
+
+        document.getElementById("ranking").innerHTML = `
+        
+          <tbody>
+            ${rows}
+          </tbody>
+ 
+      `;
+      }
+      renderRanking(getRankingByCategory(category));
     </script>
   </body>
 </html>
