@@ -542,6 +542,41 @@
           font-size: 20px;
         }
       }
+      .timer-wrap {
+        position: absolute;
+        right: 5px;
+        top: 70px;
+        width: 90px;
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .timer-svg {
+        transform: rotate(-90deg);
+      }
+
+      .timer-bg {
+        fill: none;
+        stroke: #e5e7eb;
+        stroke-width: 8;
+      }
+
+      .timer-progress {
+        fill: none;
+        stroke: #ff7a00;
+        stroke-width: 8;
+        stroke-linecap: round;
+        transition: stroke-dashoffset 0.08s linear;
+      }
+
+      .timer-text {
+        position: absolute;
+        font-size: 24px;
+        font-weight: 700;
+        color: #222;
+      }
     </style>
   </head>
   <body>
@@ -554,12 +589,19 @@
           </div>
         </header>
 
+        <div class="timer-wrap">
+          <svg class="timer-svg" width="90" height="90" viewBox="0 0 90 90">
+            <circle class="timer-bg" cx="45" cy="45" r="36"></circle>
+            <circle class="timer-progress" cx="45" cy="45" r="36"></circle>
+          </svg>
+          <div id="timerText" class="timer-text">10</div>
+        </div>
         <main class="quiz-panel">
           <section class="quiz-card">
             <div class="quiz-card-header">
               <div class="quiz-badge" id="questionBadge">QUESTION 1</div>
               <div class="current-score" id="currentQuestionScore">
-                현재 문제 점수 100
+                현재 문제 점수 10
               </div>
             </div>
 
@@ -987,6 +1029,7 @@
         }
 
         renderQuestion();
+        startQuestionTimer();
       }
 
       function endQuiz() {
@@ -1020,6 +1063,70 @@
       });
 
       loadMemes();
+
+      const timerText = document.getElementById("timerText");
+
+      let timerToken = 0;
+
+      function rAFTimer(endTime, token) {
+        if (token !== timerToken) return;
+
+        const now = Date.now();
+        const end = endTime.getTime();
+        const timeLeft = end - now;
+        const meme = memes[currentIndex];
+
+        const secondsLeft = Math.ceil(timeLeft / 1000);
+        timerText.textContent = secondsLeft > 0 ? secondsLeft : 0;
+
+        if (timeLeft <= 0) {
+          wrongCount += 1;
+
+          if (wrongCount === 1) {
+            hintText.textContent = meme.hint || "힌트가 없습니다.";
+            currentQuestionScore.textContent = `현재 문제 점수 ${HINT_QUESTION_SCORE}`;
+            answerInput.value = "";
+
+            showAlert(
+              "wrong",
+              "시간이 초과되었습니다.",
+              "힌트가 공개됩니다.",
+              () => {
+                startQuestionTimer();
+              },
+            );
+
+            return;
+          }
+
+          if (wrongCount >= 2) {
+            showAlert(
+              "wrong",
+              "오답!",
+              `틀렸습니다. 정답은 "${meme.memeName}" 입니다.`,
+              () => {
+                goNextQuestion();
+              },
+            );
+            return;
+          }
+        }
+
+        requestAnimationFrame(() => {
+          rAFTimer(endTime, token);
+        });
+      }
+
+      function startQuestionTimer() {
+        timerToken += 1;
+        const token = timerToken;
+
+        const endTime = new Date(Date.now() + 10000);
+        timerText.textContent = "10";
+        rAFTimer(endTime, token);
+      }
+
+      startQuestionTimer();
     </script>
   </body>
 </html>
