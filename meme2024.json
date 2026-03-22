@@ -69,6 +69,7 @@
   },
   {
     "memeName": "유유유유유 매그네릭",
+    "enableMemeAnswer": ["유유유유유 매그네릭", "유유유유유 매그네틱"],
     "question": "이 사진이랑 관련있는 밈의 이름은?",
     "originUrl": "https://www.youtube.com/shorts/FEj7WxJoC04",
     "imgUrl": "./images/2024Meme/question7.png",
@@ -76,6 +77,7 @@
   },
   {
     "memeName": "무파사",
+    "enableMemeAnswer": ["무파사", "어라운드 더 월드", "슈팅 스타"],
     "question": "이 사진이랑 관련있는 밈의 이름은?",
     "originUrl": "https://www.youtube.com/shorts/um04mbbBC_0",
     "imgUrl": "./images/2024Meme/question8.png",
@@ -83,6 +85,12 @@
   },
   {
     "memeName": "마라탕후루",
+    "enableMemeAnswer": [
+      "탕탕 후루후루",
+      "선배 마라탕 사주세요",
+      "그럼 제가 선배 맘에",
+      "마라탕후루"
+    ],
     "question": "이 사진이랑 관련있는 밈의 이름은?",
     "originUrl": "https://www.youtube.com/shorts/rLnqCpMKJc4",
     "imgUrl": "./images/2024Meme/question9.png",
@@ -90,6 +98,7 @@
   },
   {
     "memeName": "이븐하게 익지 않았어요",
+    "enableMemeAnswer": ["이븐하게 익지 않았어요", "이븐", "이븐하게"],
     "question": "이 사진이랑 관련있는 밈의 이름은?",
     "originUrl": "https://www.youtube.com/shorts/QvLhxGgatLA",
     "imgUrl": "./images/2024Meme/question10.png",

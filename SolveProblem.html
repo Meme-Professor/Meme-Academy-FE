@@ -915,10 +915,6 @@
         answerInput.focus();
       }
 
-      function normalizeText(text) {
-        return String(text).replace(/\s+/g, "").trim().toLowerCase();
-      }
-
       function submitAnswer() {
         if (quizEnded || currentIndex >= memes.length) {
           return;
@@ -932,10 +928,7 @@
           return;
         }
 
-        const userAnswer = normalizeText(rawUserAnswer);
-        const correctAnswer = normalizeText(meme.memeName);
-
-        if (userAnswer === correctAnswer) {
+        if (meme.enableMemeAnswer.includes(rawUserAnswer)) {
           const earnedScore =
             wrongCount === 0 ? QUESTION_SCORE : HINT_QUESTION_SCORE;
 

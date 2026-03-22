@@ -77,7 +77,7 @@
   },
   {
     "memeName": "칠가이",
-    "enableMemeAnswer": ["칠가이", "Chill Guy"],
+    "enableMemeAnswer": ["칠가이", "Chill Guy", "CHILL GUY", "chill guy"],
     "question": "이 사진이랑 관련있는 밈의 이름은?",
     "originUrl": "https://youtu.be/wTuxD5kVTkc",
     "hint": "ㅊㄱㅇ",
