@@ -56,24 +56,23 @@
         font-weight: bold;
       }
 
-      #ansList {
-        display: flex;
-        justify-content: space-evenly;
-        width: 100%;
-        height: 100%;
-      }
-      .list {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-        align-items: center;
-        font-size: 45px;
-      }
-      #left,
-      #right {
-        display: grid;
-        justify-content: space-between;
-      }
+        #ansList {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+            height: 100%;
+        }
+        .list {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+            font-size: 30px;
+        }
+        #left, #right {
+            display: grid;
+            justify-content: space-between;
+        }
 
       button {
         color: #ffffff;
@@ -90,79 +89,97 @@
         font-size: 20px;
       }
 
-      button:hover {
-        color: #654de0;
-        background-color: #dee1fd;
-        transition: 0.3s;
-      }
+        button:hover{
+            color: #654de0;
+            background-color: #dee1fd;
+            transition: 0.3s;
+        }
+
+        .btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 20%;
+            position: absolute;
+            bottom: 0;
+            z-index: 1;
+        }
+        .btnCss {
+            background-color: transparent;
+            border: none;
+            font-size: 68px;
+            cursor: pointer;
+            color: white;
+            -webkit-text-stroke: 2px black;
+            transition: all 0.3s ease;
+            text-decoration-line: none;
+        }
+        .btnCss:hover {
+            transform: scale(1.03);
+            color: #ffd700;
+        }
     </style>
 
     <script>
-      let memes = [];
-      let list = [];
-      let user = [];
-      let num = 1;
+        const params = new URLSearchParams(window.location.search);
+        const nickname = params.get("nickname");
+        const category = JSON.parse(localStorage.getItem(nickname)).category;
+        const answers = JSON.parse(localStorage.getItem(nickname)).answers;
 
-      document.addEventListener("DOMContentLoaded", async () => {
-        try {
-          const response = await fetch("./Meme.json");
-          const response2 = await fetch("./user.json");
-          memes.list = await response.json();
-          user = await response2.json();
+        let memes = [];
+        let num = 1;
 
-          console.log(memes.list);
-          console.log(memes.list.meme2024[0].memeName);
-          console.log(user);
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                console.log(category);
+                if (category === "2024") {
+                    const response = await fetch("./meme2024.json");
+                    memes.list = await response.json();
+                }
+                else if (category === "2025") {
+                    const response = await fetch("./meme2025.json");
+                    memes.list = await response.json();
+                }
+                else {
+                    const response = await fetch("./memeClassic.json");
+                    memes.list = await response.json();
+                }
 
-          if (memes.list.meme2024 === user.year) {
-            for (let i = 0; i < memes.list.meme2024.length; i++) {
-              if (num < 6) {
-                document.getElementById("left").innerHTML += `<div class="list">
-                                문제${num++} ${memes.list.meme2024[i].memeName}
-                                <button type="button" onclick="location.href='${memes.list.meme2024[i].originUrl}'">밈 유래 보러가기</button>
-                            </div>`;
-              } else {
-                document.getElementById("right").innerHTML +=
-                  `<div class="list">
-                                문제${num++} ${memes.list.meme2024[i].memeName}
-                                <button type="button" onclick="location.href='${memes.list.meme2024[i].originUrl}'">밈 유래 보러가기</button>
-                            </div>`;
-              }
+                for(let i=0; i<memes.list.length; i++) {
+                    if(num<6) {
+                        if(answers.includes(answers[i])) {
+                            document.getElementById('left').innerHTML += 
+                            `<div class="list" style="color: red">
+                                문제${num++} ${memes.list[i].memeName}
+                                <button type="button" onclick="location.href='${memes.list[i].originUrl}'">밈 유래 보러가기</button>
+                            </div>`
+                        } else {
+                            document.getElementById('left').innerHTML += 
+                            `<div class="list">
+                                문제${num++} ${memes.list[i].memeName}
+                                <button type="button" onclick="location.href='${memes.list[i].originUrl}'">밈 유래 보러가기</button>
+                            </div>`
+                        }  
+                    } else {
+                        if(answers.includes(answers[i])) {
+                            document.getElementById('right').innerHTML += 
+                            `<div class="list" style="color: red">
+                                문제${num++} ${memes.list[i].memeName}
+                                <button type="button" onclick="location.href='${memes.list[i].originUrl}'">밈 유래 보러가기</button>
+                            </div>`
+                        } else {
+                            document.getElementById('right').innerHTML += 
+                            `<div class="list">
+                                문제${num++} ${memes.list[i].memeName}
+                                <button type="button" onclick="location.href='${memes.list[i].originUrl}'">밈 유래 보러가기</button>
+                            </div>`
+                        }  
+                    }
+                }
+            } catch (error) {
+                console.error("json 불러오기 실패:", error);
             }
-          } else if (memes.list.meme2025 === user.year) {
-            for (let i = 0; i < memes.list.meme2025.length; i++) {
-              if (num < 6) {
-                document.getElementById("left").innerHTML += `<div class="list">
-                                문제${num++} ${memes.list.meme2025[i].memeName}
-                                <button type="button" onclick="location.href='${memes.list.meme2025[i].originUrl}'">밈 유래 보러가기</button>
-                            </div>`;
-              } else {
-                document.getElementById("right").innerHTML +=
-                  `<div class="list">
-                                문제${num++} ${memes.list.meme2025[i].memeName}
-                                <button type="button" onclick="location.href='${memes.list.meme2025[i].originUrl}'">밈 유래 보러가기</button>
-                            </div>`;
-              }
-            }
-          } else {
-            for (let i = 0; i < memes.list.classicMeme.length; i++) {
-              if (num < 6) {
-                document.getElementById("left").innerHTML += `<div class="list">
-                                문제${num++} ${memes.list.classicMeme[i].memeName}
-                                <button type="button" onclick="location.href='${memes.list.classicMeme[i].originUrl}'">밈 유래 보러가기</button>
-                            </div>`;
-              } else {
-                document.getElementById("right").innerHTML +=
-                  `<div class="list">
-                                문제${num++} ${memes.list.classicMeme[i].memeName}
-                                <button type="button" onclick="location.href='${memes.list.classicMeme[i].originUrl}'">밈 유래 보러가기</button>
-                            </div>`;
-              }
-            }
-          }
-        } catch (error) {
-          console.error("Meme.json 불러오기 실패:", error);
-        }
       });
     </script>
   </head>
@@ -179,5 +196,10 @@
       </div>
       <div class="footer"></div>
     </div>
-  </body>
+    <div class="btn">
+        <a href="./index.html" class="btnCss">처음으로 돌아가기</a>
+    </div>
+    <div class="footer"></div>
+</div>
+</body>
 </html>
