@@ -271,7 +271,7 @@
       </div>
 
       <div class="result">
-        <button onclick="resultPage();" class="resultbtn">결과 보러 가기</button>
+        <button onclick="resultPage()" class="resultbtn">결과 보러 가기</button>
       </div>
     </div>
 
@@ -332,9 +332,6 @@
         }
       }
 
-      function resultPage() {
-        window.location.href = `./ResultPage.html?nickname=${encodeURIComponent(nickname)}`;
-      }
       function getRankingByCategory(targetCategory) {
         const ranking = [];
 
@@ -390,6 +387,10 @@
       `;
       }
       renderRanking(getRankingByCategory(category));
+
+      window.resultPage = function () {
+        window.location.href = `./ResultPage.html?nickname=${encodeURIComponent(nickname)}`;
+      }
     </script>
   </body>
 </html>
