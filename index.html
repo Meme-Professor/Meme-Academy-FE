@@ -123,7 +123,7 @@
         --start: -45deg;
         --radius: 520px;
         --font-size: 110px;
-        --center-y: 200%;
+        --center-y: 215%;
 
         position: relative;
         width: 100%;
@@ -312,6 +312,27 @@
         </div>
       </div>
     </div>
+
+    <audio id="bgm" src="./sounds/배경.mp3" loop></audio>
+
+    <button
+      id="musicToggle"
+      style="
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        font-size: 20px;
+        padding: 10px 14px;
+        border-radius: 50%;
+        border: none;
+        background: black;
+        color: white;
+        cursor: pointer;
+      "
+    >
+      🔊
+    </button>
   </body>
 
   <script>
@@ -394,5 +415,33 @@
     }
 
     makeClassicModal();
+
+    const bgm = document.getElementById("bgm");
+    const musicBtn = document.getElementById("musicToggle");
+
+    let isPlaying = false;
+
+    // 눌러야 배경음악 시작
+    document.addEventListener(
+      "click",
+      () => {
+        if (!isPlaying) {
+          bgm.play();
+          isPlaying = true;
+        }
+      },
+      { once: true },
+    );
+
+    // 끄고 켜기
+    musicBtn.addEventListener("click", () => {
+      if (bgm.paused) {
+        bgm.play();
+        musicBtn.textContent = "🔊";
+      } else {
+        bgm.pause();
+        musicBtn.textContent = "🔇";
+      }
+    });
   </script>
 </html>
