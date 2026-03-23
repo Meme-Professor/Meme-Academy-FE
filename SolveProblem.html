@@ -842,6 +842,7 @@
 
       function showAlert(type, title, message, onConfirm = null) {
         clearParticles();
+        stopTimer();
         alertConfirmCallback = onConfirm;
 
         alertCard.classList.remove("correct", "wrong", "info", "shake");
@@ -974,7 +975,7 @@
           return;
         }
 
-          if (meme.enableMemeAnswer.includes(rawUserAnswer)) {
+        if (meme.enableMemeAnswer.includes(rawUserAnswer)) {
           correctSound.currentTime = 0;
           correctSound.play();
           const earnedScore =
@@ -1001,7 +1002,9 @@
           answerInput.value = "";
           answerInput.focus();
 
-          showAlert("wrong", "오답!", "틀렸습니다. 힌트가 공개됩니다.");
+          showAlert("wrong", "오답!", "틀렸습니다. 힌트가 공개됩니다.", () => {
+            startQuestionTimer();
+          });
           return;
         }
 
@@ -1014,6 +1017,7 @@
             "오답!",
             `틀렸습니다. 정답은 "${meme.memeName}" 입니다.`,
             () => {
+              startQuestionTimer();
               goNextQuestion();
             },
           );
@@ -1124,6 +1128,11 @@
         const endTime = new Date(Date.now() + 10000);
         timerText.textContent = "10";
         rAFTimer(endTime, token);
+      }
+
+      function stopTimer() {
+        timerToken += 1;
+        timerText.textContent = "멈춤";
       }
 
       startQuestionTimer();
