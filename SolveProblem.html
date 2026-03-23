@@ -632,7 +632,8 @@
         <button class="alert-btn" id="alertBtn" type="button">확인</button>
       </div>
     </div>
-
+    <audio id="correctSound" src="./sounds/치는데.mp3"></audio>
+    <audio id="wrongSound" src="./sounds/보노보노.mp3"></audio>
     <script>
       const progressText = document.getElementById("progressText");
       const totalScoreEl = document.getElementById("totalScore");
@@ -660,6 +661,9 @@
       const params = new URLSearchParams(window.location.search);
       const nickname = params.get("nickname");
       const category = params.get("category");
+
+      const correctSound = document.getElementById("correctSound");
+      const wrongSound = document.getElementById("wrongSound");
 
       const CATEGORY_FILE_MAP = {
         2025: "./meme2025.json",
@@ -928,7 +932,9 @@
           return;
         }
 
-        if (meme.enableMemeAnswer.includes(rawUserAnswer)) {
+          if (meme.enableMemeAnswer.includes(rawUserAnswer)) {
+          correctSound.currentTime = 0;
+          correctSound.play();
           const earnedScore =
             wrongCount === 0 ? QUESTION_SCORE : HINT_QUESTION_SCORE;
 
@@ -946,6 +952,8 @@
         wrongCount += 1;
 
         if (wrongCount === 1) {
+          wrongSound.currentTime = 0;
+          wrongSound.play();
           hintText.textContent = meme.hint || "힌트가 없습니다.";
           currentQuestionScore.textContent = `현재 문제 점수 ${HINT_QUESTION_SCORE}`;
           answerInput.value = "";
@@ -956,6 +964,9 @@
         }
 
         if (wrongCount >= 2) {
+          wrongSound.currentTime = 0;
+          wrongSound.play();
+          upsertAnswerScore(currentIndex, 0);
           showAlert(
             "wrong",
             "오답!",
