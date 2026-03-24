@@ -676,6 +676,10 @@
     </div>
     <audio id="correctSound" src="./sounds/치는데.mp3"></audio>
     <audio id="wrongSound" src="./sounds/보노보노.mp3"></audio>
+
+    <audio id="timer" src="./sounds/timer.mp3" loop></audio>
+    <audio id="timer_end" src="./sounds/timer_end.mp3"></audio>
+    <audio id="scoreSound" src="./sounds/score_page.mp3"></audio>
     <script>
       const progressText = document.getElementById("progressText");
       const totalScoreEl = document.getElementById("totalScore");
@@ -706,6 +710,11 @@
 
       const correctSound = document.getElementById("correctSound");
       const wrongSound = document.getElementById("wrongSound");
+
+      const timerSound = document.getElementById("timer");
+      const timerEndSound = document.getElementById("timer_end");
+
+      const scoreSound = document.getElementById("scoreSound");
 
       const CATEGORY_FILE_MAP = {
         2025: "./meme2025.json",
@@ -1038,13 +1047,21 @@
 
       function endQuiz() {
         quizEnded = true;
+        stopTimer();
 
         const userData = getUserQuizData();
         userData.totalScore = totalScore;
         userData.category = category;
         saveUserQuizData(userData);
 
-        window.location.href = `./Score.html?nickname=${encodeURIComponent(nickname)}`;
+        if (scoreSound) {
+          scoreSound.currentTime = 0;
+          scoreSound.play().catch(e => console.log("사운드 재생 에러:", e));
+        }
+
+        showAlert("correct", "퀴즈 완료!", "모든 문제를 풀었습니다!\n결과를 확인해볼까요?", () => {
+          window.location.href = `./Score.html?nickname=${encodeURIComponent(nickname)}`;
+        });
       }
 
       answerInput.addEventListener("keydown", (event) => {
@@ -1084,6 +1101,10 @@
         timerText.textContent = secondsLeft > 0 ? secondsLeft : 0;
 
         if (timeLeft <= 0) {
+          timerSound.pause();
+          timerEndSound.currentTime = 0;
+          timerEndSound.play().catch(e => console.log("종료 사운드 대기"));
+
           wrongCount += 1;
 
           if (wrongCount === 1) {
@@ -1127,12 +1148,18 @@
 
         const endTime = new Date(Date.now() + 10000);
         timerText.textContent = "10";
+
+        timerSound.currentTime = 0;
+        timerSound.play().catch(e => console.log("타이머 사운드 대기"));
+
         rAFTimer(endTime, token);
       }
 
       function stopTimer() {
         timerToken += 1;
         timerText.textContent = "멈춤";
+
+        timerSound.pause();
       }
 
       startQuestionTimer();
